@@ -1,0 +1,54 @@
+{
+	"version": "1.1.1",
+	"authors": [
+		"Nauck IT KG"
+	],
+	"buildOptions": {
+		"warningsAsErrors": true,
+		"compile": {
+			"includeFiles": [
+				"../CommonAssemblyInfo.cs"
+			],
+			"include": [
+				"*.cs",
+				"Properties/*.cs",
+				"Security/**/*.cs",
+				"Validation/*.cs"
+			]
+		}
+	},
+	"dependencies": {
+		"Portable.BouncyCastle": "1.8.1"
+	},
+	"frameworks": {
+		"net451": {
+			"frameworkAssemblies": {
+				"System.Xml": "4.0.0",
+				"System.Xml.Linq": "4.0.0",
+				"System.IO": {
+					"type": "build"
+				},
+				"System.Runtime": {
+					"type": "build"
+				},
+				"System.Runtime.Extensions": {
+					"type": "build"
+				}
+			}
+		},
+		"netstandard1.5": {
+			"imports": "dotnet",
+			"buildOptions": {
+				"define": [
+					"CORECLR"
+				]
+			},
+			"dependencies": {
+				"System.Runtime": "4.1.0-rc2-24027",
+				"System.Runtime.Extensions": "4.1.0-rc2-24027",
+				"System.Xml.ReaderWriter": "4.0.11-rc2-24027",
+				"System.Xml.XDocument": "4.0.11-rc2-24027"
+			}
+		}
+	}
+}

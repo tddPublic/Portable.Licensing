@@ -77,7 +77,7 @@ namespace Portable.Licensing.Validation
             var validator = validationChainBuilder.StartValidatorChain();
             validator.Validate = license => assemblies.All(
                     asm =>
-                    asm.GetCustomAttributes(typeof (AssemblyBuildDateAttribute), false)
+                    asm.GetCustomAttributes(typeof (AssemblyBuildDateAttribute))
                        .Cast<AssemblyBuildDateAttribute>()
                        .All(a => a.BuildDate < license.Expiration));
 
