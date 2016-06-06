@@ -4,7 +4,9 @@
 		"Nauck IT KG"
 	],
 	"buildOptions": {
-		"warningsAsErrors": true,
+		"warningsAsErrors": true, 
+		"keyFile": "Portable.Licensing.snk",
+		"strongName": true,
 		"compile": {
 			"includeFiles": [
 				"../CommonAssemblyInfo.cs"
