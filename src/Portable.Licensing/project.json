@@ -23,7 +23,7 @@
   "frameworks": {
     "net451": {
       "dependencies": {
-        "BouncyCastle": "1.8.1"
+        "CoreCompat.BouncyCastle": "1.8.1-beta003"
       },
       "frameworkAssemblies": {
         "System.Xml": "4.0.0",
