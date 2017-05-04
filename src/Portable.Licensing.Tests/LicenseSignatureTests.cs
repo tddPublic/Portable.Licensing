@@ -1,4 +1,4 @@
-﻿﻿//
+﻿//
 // Copyright © 2012 - 2013 Nauck IT KG     http://www.nauck-it.de
 //
 // Author:
@@ -27,19 +27,17 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Xml.Linq;
-using NUnit.Framework;
+using Xunit;
 
 namespace Portable.Licensing.Tests
 {
-    [TestFixture]
     public class LicenseSignatureTests
     {
         private string passPhrase;
         private string privateKey;
         private string publicKey;
 
-        [SetUp]
-        public void Init()
+        public LicenseSignatureTests()
         {
             passPhrase = Guid.NewGuid().ToString();
             var keyGenerator = Security.Cryptography.KeyGenerator.Create();
@@ -55,32 +53,32 @@ namespace Portable.Licensing.Tests
                 , "r", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
         }
 
-        [Test]
+        [Fact]
         public void Can_Generate_And_Validate_Signature_With_Empty_License()
         {
             var license = License.New()
                                  .CreateAndSignWithPrivateKey(privateKey, passPhrase);
 
-            Assert.That(license, Is.Not.Null);
-            Assert.That(license.Signature, Is.Not.Null);
+            Assert.NotNull(license);
+            Assert.NotNull(license.Signature);
 
             // validate xml
             var xmlElement = XElement.Parse(license.ToString(), LoadOptions.None);
-            Assert.That(xmlElement.HasElements, Is.True);
+            Assert.True(xmlElement.HasElements);
 
             // validate default values when not set
-            Assert.That(license.Id, Is.EqualTo(Guid.Empty));
-            Assert.That(license.Type, Is.EqualTo(LicenseType.Trial));
-            Assert.That(license.Quantity, Is.EqualTo(0));
-            Assert.That(license.ProductFeatures, Is.Null);
-            Assert.That(license.Customer, Is.Null);
-            Assert.That(license.Expiration, Is.EqualTo(ConvertToRfc1123(DateTime.MaxValue)));
+            Assert.Equal(Guid.Empty, license.Id);
+            Assert.Equal(LicenseType.Trial, license.Type);
+            Assert.Equal(0, license.Quantity);
+            Assert.Null(license.ProductFeatures);
+            Assert.Null(license.Customer);
+            Assert.Equal(ConvertToRfc1123(DateTime.MaxValue), license.Expiration);
 
             // verify signature
-            Assert.That(license.VerifySignature(publicKey), Is.True);
+            Assert.True(license.VerifySignature(publicKey));
         }
 
-        [Test]
+        [Fact]
         public void Can_Generate_And_Validate_Signature_With_Standard_License()
         {
             var licenseId = Guid.NewGuid();
@@ -103,29 +101,29 @@ namespace Portable.Licensing.Tests
                                  .ExpiresAt(expirationDate)
                                  .CreateAndSignWithPrivateKey(privateKey, passPhrase);
 
-            Assert.That(license, Is.Not.Null);
-            Assert.That(license.Signature, Is.Not.Null);
+            Assert.NotNull(license);
+            Assert.NotNull(license.Signature);
 
             // validate xml
             var xmlElement = XElement.Parse(license.ToString(), LoadOptions.None);
-            Assert.That(xmlElement.HasElements, Is.True);
+            Assert.True(xmlElement.HasElements);
 
             // validate default values when not set
-            Assert.That(license.Id, Is.EqualTo(licenseId));
-            Assert.That(license.Type, Is.EqualTo(LicenseType.Standard));
-            Assert.That(license.Quantity, Is.EqualTo(10));
-            Assert.That(license.ProductFeatures, Is.Not.Null);
-            Assert.That(license.ProductFeatures.GetAll(), Is.EquivalentTo(productFeatures));
-            Assert.That(license.Customer, Is.Not.Null);
-            Assert.That(license.Customer.Name, Is.EqualTo(customerName));
-            Assert.That(license.Customer.Email, Is.EqualTo(customerEmail));
-            Assert.That(license.Expiration, Is.EqualTo(ConvertToRfc1123(expirationDate)));
+            Assert.Equal(licenseId, license.Id);
+            Assert.Equal(LicenseType.Standard, license.Type);
+            Assert.Equal(10, license.Quantity);
+            Assert.NotNull(license.ProductFeatures);
+            Assert.Equal(productFeatures, license.ProductFeatures.GetAll());
+            Assert.NotNull(license.Customer);
+            Assert.Equal(customerName, license.Customer.Name);
+            Assert.Equal(customerEmail, license.Customer.Email);
+            Assert.Equal(ConvertToRfc1123(expirationDate), license.Expiration);
 
             // verify signature
-            Assert.That(license.VerifySignature(publicKey), Is.True);
+            Assert.True(license.VerifySignature(publicKey));
         }
 
-        [Test]
+        [Fact]
         public void Can_Detect_Hacked_License()
         {
             var licenseId = Guid.NewGuid();
@@ -148,36 +146,36 @@ namespace Portable.Licensing.Tests
                                  .ExpiresAt(expirationDate)
                                  .CreateAndSignWithPrivateKey(privateKey, passPhrase);
 
-            Assert.That(license, Is.Not.Null);
-            Assert.That(license.Signature, Is.Not.Null);
+            Assert.NotNull(license);
+            Assert.NotNull(license.Signature);
 
             // verify signature
-            Assert.That(license.VerifySignature(publicKey), Is.True);
+            Assert.True(license.VerifySignature(publicKey));
 
             // validate xml
             var xmlElement = XElement.Parse(license.ToString(), LoadOptions.None);
-            Assert.That(xmlElement.HasElements, Is.True);
+            Assert.True(xmlElement.HasElements);
 
             // manipulate xml
-            Assert.That(xmlElement.Element("Quantity"), Is.Not.Null);
+            Assert.NotNull(xmlElement.Element("Quantity"));
             xmlElement.Element("Quantity").Value = "11"; // now we want to have 11 licenses
 
             // load license from manipulated xml
             var hackedLicense = License.Load(xmlElement.ToString());
 
             // validate default values when not set
-            Assert.That(hackedLicense.Id, Is.EqualTo(licenseId));
-            Assert.That(hackedLicense.Type, Is.EqualTo(LicenseType.Standard));
-            Assert.That(hackedLicense.Quantity, Is.EqualTo(11)); // now with 10+1 licenses
-            Assert.That(hackedLicense.ProductFeatures, Is.Not.Null);
-            Assert.That(hackedLicense.ProductFeatures.GetAll(), Is.EquivalentTo(productFeatures));
-            Assert.That(hackedLicense.Customer, Is.Not.Null);
-            Assert.That(hackedLicense.Customer.Name, Is.EqualTo(customerName));
-            Assert.That(hackedLicense.Customer.Email, Is.EqualTo(customerEmail));
-            Assert.That(hackedLicense.Expiration, Is.EqualTo(ConvertToRfc1123(expirationDate)));
+            Assert.Equal(licenseId, hackedLicense.Id);
+            Assert.Equal(LicenseType.Standard, hackedLicense.Type);
+            Assert.Equal(11, hackedLicense.Quantity); // now with 10+1 licenses
+            Assert.NotNull(hackedLicense.ProductFeatures);
+            Assert.Equal(productFeatures, hackedLicense.ProductFeatures.GetAll());
+            Assert.NotNull(hackedLicense.Customer);
+            Assert.Equal(customerName, hackedLicense.Customer.Name);
+            Assert.Equal(customerEmail, hackedLicense.Customer.Email);
+            Assert.Equal(ConvertToRfc1123(expirationDate), hackedLicense.Expiration);
 
             // verify signature
-            Assert.That(hackedLicense.VerifySignature(publicKey), Is.False);
+            Assert.False(hackedLicense.VerifySignature(publicKey));
         }
     }
 }

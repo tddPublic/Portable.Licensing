@@ -1,4 +1,4 @@
-﻿﻿//
+﻿//
 // Copyright © 2012 - 2013 Nauck IT KG     http://www.nauck-it.de
 //
 // Author:
@@ -28,15 +28,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
 using Portable.Licensing.Validation;
+using Xunit;
 
 namespace Portable.Licensing.Tests
 {
-    [TestFixture]
     public class LicenseValidationTests
     {
-        [Test]
+        [Fact]
         public void Can_Validate_Valid_Signature()
         {
             var publicKey =
@@ -62,11 +61,11 @@ namespace Portable.Licensing.Tests
                 .Signature(publicKey)
                 .AssertValidLicense();
 
-            Assert.That(validationResults, Is.Not.Null);
-            Assert.That(validationResults.Count(), Is.EqualTo(0));
+            Assert.NotNull(validationResults);
+            Assert.Equal(0, validationResults.Count());
         }
 
-        [Test]
+        [Fact]
         public void Can_Validate_Invalid_Signature()
         {
             var publicKey =
@@ -92,12 +91,12 @@ namespace Portable.Licensing.Tests
                 .Signature(publicKey)
                 .AssertValidLicense().ToList();
 
-            Assert.That(validationResults, Is.Not.Null);
-            Assert.That(validationResults.Count(), Is.EqualTo(1));
-            Assert.That(validationResults.FirstOrDefault(), Is.TypeOf<InvalidSignatureValidationFailure>());
+            Assert.NotNull(validationResults);
+            Assert.Equal(1, validationResults.Count());
+            Assert.IsType<InvalidSignatureValidationFailure>(validationResults.FirstOrDefault());
         }
 
-        [Test]
+        [Fact]
         public void Can_Validate_Expired_ExpirationDate()
         {
             var publicKey = "";
@@ -122,13 +121,13 @@ namespace Portable.Licensing.Tests
                 .ExpirationDate()
                 .AssertValidLicense().ToList();
 
-            Assert.That(validationResults, Is.Not.Null);
-            Assert.That(validationResults.Count(), Is.EqualTo(1));
-            Assert.That(validationResults.FirstOrDefault(), Is.TypeOf<LicenseExpiredValidationFailure>());
+            Assert.NotNull(validationResults);
+            Assert.Equal(1, validationResults.Count());
+            Assert.IsType<LicenseExpiredValidationFailure>(validationResults.FirstOrDefault());
 
         }
 
-        [Test]
+        [Fact]
         public void Can_Validate_CustomAssertion()
         {
             var publicKey = @"MIIBKjCB4wYHKoZIzj0CATCB1wIBATAsBgcqhkjOPQEBAiEA/////wAAAAEAAAAAAAAAAAAAAAD///////////////8wWwQg/////wAAAAEAAAAAAAAAAAAAAAD///////////////wEIFrGNdiqOpPns+u9VXaYhrxlHQawzFOw9jvOPD4n0mBLAxUAxJ02CIbnBJNqZnjhE50mt4GffpAEIQNrF9Hy4SxCR/i85uVjpEDydwN9gS3rM6D0oTlF2JjClgIhAP////8AAAAA//////////+85vqtpxeehPO5ysL8YyVRAgEBA0IABNVLQ1xKY80BFMgGXec++Vw7n8vvNrq32PaHuBiYMm0PEj2JoB7qSSWhfgcjxNVJsxqJ6gDQVWgl0r7LH4dr0KU=";
@@ -157,19 +156,19 @@ namespace Portable.Licensing.Tests
             var validationResults = license
                 .Validate()
                 .AssertThat(lic => lic.ProductFeatures.Contains("Sales Module"),
-                            new GeneralValidationFailure {Message = "Sales Module not licensed!"})
+                            new GeneralValidationFailure { Message = "Sales Module not licensed!" })
                 .And()
                 .AssertThat(lic => lic.AdditionalAttributes.Get("Assembly Signature") == "123456789",
-                            new GeneralValidationFailure {Message = "Assembly Signature does not match!"})
+                            new GeneralValidationFailure { Message = "Assembly Signature does not match!" })
                 .And()
                 .Signature(publicKey)
                 .AssertValidLicense().ToList();
 
-            Assert.That(validationResults, Is.Not.Null);
-            Assert.That(validationResults.Count(), Is.EqualTo(0));
+            Assert.NotNull(validationResults);
+            Assert.Equal(0, validationResults.Count());
         }
 
-        [Test]
+        [Fact]
         public void Do_Not_Crash_On_Invalid_Data()
         {
             var publicKey = "1234";
@@ -185,9 +184,9 @@ namespace Portable.Licensing.Tests
                 .Signature(publicKey)
                 .AssertValidLicense().ToList();
 
-            Assert.That(validationResults, Is.Not.Null);
-            Assert.That(validationResults.Count(), Is.EqualTo(1));
-            Assert.That(validationResults.FirstOrDefault(), Is.TypeOf<InvalidSignatureValidationFailure>());
+            Assert.NotNull(validationResults);
+            Assert.Equal(1, validationResults.Count());
+            Assert.IsType<InvalidSignatureValidationFailure>(validationResults.FirstOrDefault());
 
         }
     }

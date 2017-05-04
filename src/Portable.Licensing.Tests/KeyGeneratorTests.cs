@@ -24,15 +24,14 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
-using NUnit.Framework;
 using Portable.Licensing.Security.Cryptography;
+using Xunit;
 
 namespace Portable.Licensing.Tests
 {
-    [TestFixture]
     public class KeyGeneratorTests
     {
-        [Test] // See Bug #135
+        [Fact] // See Bug #135
         public void Ensure_To_Not_Generate_Identical_Keys()
         {
             var passPhrase = "test";
@@ -52,8 +51,8 @@ namespace Portable.Licensing.Tests
                 var privateKey = pair.ToEncryptedPrivateKeyString(passPhrase);
                 var publicKey = pair.ToPublicKeyString();
 
-                Assert.That(privKeySet.Add(privateKey), Is.True);
-                Assert.That(pubKeySet.Add(publicKey), Is.True);
+                Assert.True(privKeySet.Add(privateKey));
+                Assert.True(pubKeySet.Add(publicKey));
             }
 
             privKeySet.Clear();
