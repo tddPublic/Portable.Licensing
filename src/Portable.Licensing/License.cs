@@ -227,18 +227,22 @@ namespace Portable.Licensing
         /// <returns>true if the <see cref="License.Signature"/> verifies; otherwise false.</returns>
         public bool VerifySignature(string publicKey)
         {
-            var signTag = xmlData.Element("Signature");
+            // Because we'll be manipulating the xmlData, make sure to do it on a deep clone of the xmlData.
+            // Otherwise other thread accessing xmlData at the same time may see the "changed" (and invalid!)
+            // copy of xmlData.
+            var xmlDataClone = new XElement(xmlData);
+            var signTag = xmlDataClone.Element("Signature");
 
             if (signTag == null)
                 return false;
 
             try
             {
-                signTag.Remove();
+                xmlDataClone.Remove();
 
                 var pubKey = KeyFactory.FromPublicKeyString(publicKey);
 
-                var documentToSign = Encoding.UTF8.GetBytes(xmlData.ToString(SaveOptions.DisableFormatting));
+                var documentToSign = Encoding.UTF8.GetBytes(xmlDataClone.ToString(SaveOptions.DisableFormatting));
                 var signer = SignerUtilities.GetSigner(signatureAlgorithm);
                 signer.Init(false, pubKey);
                 signer.BlockUpdate(documentToSign, 0, documentToSign.Length);
@@ -247,7 +251,7 @@ namespace Portable.Licensing
             }
             finally
             {
-                xmlData.Add(signTag);
+                xmlDataClone.Add(signTag);
             }
         }
 
