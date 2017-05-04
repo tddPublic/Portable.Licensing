@@ -6,7 +6,7 @@ using System.Reflection;
 [assembly: AssemblyCopyrightAttribute("Copyright � 2012 - 2014 Nauck IT KG")]
 [assembly: AssemblyVersionAttribute("1.0.0.0")]
 [assembly: AssemblyFileVersionAttribute("1.1.0.0")]
-[assembly: AssemblyInformationalVersionAttribute("1.1.0")]
+[assembly: AssemblyInformationalVersionAttribute("1.1.3")]
 namespace System {
     internal static class AssemblyVersionInformation {
         internal const string Version = "1.0.0.0";
