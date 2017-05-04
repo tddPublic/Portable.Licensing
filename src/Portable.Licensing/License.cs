@@ -238,7 +238,7 @@ namespace Portable.Licensing
 
             try
             {
-                xmlDataClone.Remove();
+                signTag.Remove();
 
                 var pubKey = KeyFactory.FromPublicKeyString(publicKey);
 
