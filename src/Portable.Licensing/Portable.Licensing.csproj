@@ -21,6 +21,11 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+    <PackageTags>Portable.Licensing PCL Portable Licensing License Key KeyGenerator Protection Signing Nauck</PackageTags>
+    <RepositoryUrl>https://github.com/CoreCompat/Portable.Licensing</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/CoreCompat/Portable.Licensing</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/CoreCompat/Portable.Licensing/blob/develop/LICENSE.md</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
