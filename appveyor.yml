@@ -8,4 +8,4 @@ build_script:
   - dotnet pack src\Portable.Licensing\Portable.Licensing.csproj -c Release --version-suffix r%APPVEYOR_BUILD_NUMBER%
 
 on_success:
-  - ps: Push-AppVeyorArtifact imobiledevice-net\bin\Debug\imobiledevice-net.1.2.1-r$($env:APPVEYOR_BUILD_NUMBER).nupkg
+  - ps: Push-AppVeyorArtifact src\Portable.Licensing\bin\Release\CoreCompat.Portable.Licensing.1.1.4-r($env:APPVEYOR_BUILD_NUMBER).nupkg
