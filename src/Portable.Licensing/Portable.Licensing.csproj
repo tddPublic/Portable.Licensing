@@ -16,6 +16,7 @@
     <PackageProjectUrl>https://github.com/CoreCompat/Portable.Licensing</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/CoreCompat/Portable.Licensing/blob/develop/LICENSE.md</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
+    <Summary>Portable.Licensing is a cross platform software licensing framework which allows you to implement licensing into your application or library.</Summary>
     <Description>Portable.Licensing is a cross platform software licensing framework which allows you to
 implement licensing into your application or library. It provides you all tools to create
 and validate licenses for your software.
