@@ -9,7 +9,7 @@ install:
   - dotnet --version
 
 script:
-  - dotnet restore src\Portable.Licensing\Portable.Licensing.csproj
-  - dotnet build src\Portable.Licensing\Portable.Licensing.csproj -c Release
-  - dotnet pack src\Portable.Licensing\Portable.Licensing.csproj -c Release --version-suffix r$TRAVIS_BUILD_NUMBER
-  - dotnet test src\Portable.Licensing.Tests\Portable.Licensing.Tests.csproj
+  - dotnet restore src/Portable.Licensing/Portable.Licensing.csproj
+  - dotnet build src/Portable.Licensing/Portable.Licensing.csproj -c Release
+  - dotnet pack src/Portable.Licensing/Portable.Licensing.csproj -c Release --version-suffix r$TRAVIS_BUILD_NUMBER
+  - dotnet test src/Portable.Licensing.Tests/Portable.Licensing.Tests.csproj
