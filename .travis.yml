@@ -10,5 +10,5 @@ install:
 
 script:
   - dotnet restore src/Portable.Licensing/Portable.Licensing.csproj
-  - dotnet build src/Portable.Licensing/Portable.Licensing.csproj -c Release -f netcoreapp2.0
+  - dotnet build src/Portable.Licensing/Portable.Licensing.csproj -c Release -f netstandard2.0
   - dotnet test src/Portable.Licensing.Tests/Portable.Licensing.Tests.csproj -f netcoreapp2.0
