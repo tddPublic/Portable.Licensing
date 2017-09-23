@@ -32,8 +32,11 @@
     <Compile Include="..\CommonAssemblyInfo.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
+  <ItemGroup>
     <PackageReference Include="CoreCompat.BouncyCastle" Version="1.8.1-beta003" />
+  </ItemGroup>
+  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.IO" />
@@ -52,8 +55,7 @@
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
     <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.0" />
     <PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
-    <PackageReference Include="System.Resources.ResourceManager" Version="4.0.1" />
-    <PackageReference Include="CoreCompat.BouncyCastle" Version="1.8.1-beta003" />
+    <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
   </ItemGroup>
 
 </Project>
