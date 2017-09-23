@@ -1,29 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{476022A4-7C0A-4FC7-830E-ED32D3F82B13}"
-	ProjectSection(SolutionItems) = preProject
-		..\paket.dependencies = ..\paket.dependencies
-		..\paket.lock = ..\paket.lock
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{449E5271-6EE5-49BA-AB0E-370978ACD89C}"
-	ProjectSection(SolutionItems) = preProject
-		..\build.fsx = ..\build.fsx
-		..\LICENSE.md = ..\LICENSE.md
-		..\README.md = ..\README.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xamarin", "Xamarin", "{BB17039C-1F40-476D-8F75-DA11576E4168}"
-	ProjectSection(SolutionItems) = preProject
-		..\Xamarin\Details.md = ..\Xamarin\Details.md
-		..\Xamarin\GettingStarted.md = ..\Xamarin\GettingStarted.md
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portable.Licensing", "Portable.Licensing\Portable.Licensing.csproj", "{6D2B800C-C252-4A33-BA05-904AE5B79417}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portable.Licensing.Tests", "Portable.Licensing.Tests\Portable.Licensing.Tests.csproj", "{16CEEFD4-62BF-4539-9A08-0D05EC695572}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portable.Licensing.Tests", "Portable.Licensing.Tests\Portable.Licensing.Tests.csproj", "{16CEEFD4-62BF-4539-9A08-0D05EC695572}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,7 +78,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{BB17039C-1F40-476D-8F75-DA11576E4168} = {449E5271-6EE5-49BA-AB0E-370978ACD89C}
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DC7F8F62-AC58-4DB0-A15E-DE22C6DCF2B9}
 	EndGlobalSection
 EndGlobal
