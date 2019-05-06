@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>1.1.5</VersionPrefix>
     <Authors>Nauck IT KG</Authors>
     <TargetFrameworks>net451;netstandard2.0</TargetFrameworks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -12,9 +11,8 @@
     <PackageId>CoreCompat.Portable.Licensing</PackageId>
     <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.5' ">$(PackageTargetFallback);dotnet</PackageTargetFallback>
     <PackageTags>Portable.Licensing PCL Portable Licensing License Key KeyGenerator Protection Signing Nauck</PackageTags>
-    <RepositoryUrl>https://github.com/CoreCompat/Portable.Licensing</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/CoreCompat/Portable.Licensing</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/CoreCompat/Portable.Licensing/blob/develop/LICENSE.md</PackageLicenseUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
@@ -34,6 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CoreCompat.BouncyCastle" Version="1.8.2-r105" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.8.5" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.138" PrivateAssets="All"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="All"/>
   </ItemGroup>
 </Project>
