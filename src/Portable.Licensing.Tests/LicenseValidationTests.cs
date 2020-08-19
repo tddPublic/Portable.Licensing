@@ -62,7 +62,7 @@ namespace Portable.Licensing.Tests
                 .AssertValidLicense();
 
             Assert.NotNull(validationResults);
-            Assert.Equal(0, validationResults.Count());
+            Assert.Empty(validationResults);
         }
 
         [Fact]
@@ -92,14 +92,13 @@ namespace Portable.Licensing.Tests
                 .AssertValidLicense().ToList();
 
             Assert.NotNull(validationResults);
-            Assert.Equal(1, validationResults.Count());
+            Assert.Single(validationResults);
             Assert.IsType<InvalidSignatureValidationFailure>(validationResults.FirstOrDefault());
         }
 
         [Fact]
         public void Can_Validate_Expired_ExpirationDate()
         {
-            var publicKey = "";
             var licenseData = @"<License>
                                   <Id>77d4c193-6088-4c64-9663-ed7398ae8c1a</Id>
                                   <Type>Trial</Type>
@@ -122,7 +121,7 @@ namespace Portable.Licensing.Tests
                 .AssertValidLicense().ToList();
 
             Assert.NotNull(validationResults);
-            Assert.Equal(1, validationResults.Count());
+            Assert.Single(validationResults);
             Assert.IsType<LicenseExpiredValidationFailure>(validationResults.FirstOrDefault());
 
         }
@@ -165,7 +164,7 @@ namespace Portable.Licensing.Tests
                 .AssertValidLicense().ToList();
 
             Assert.NotNull(validationResults);
-            Assert.Equal(0, validationResults.Count());
+            Assert.Empty(validationResults);
         }
 
         [Fact]
@@ -185,7 +184,7 @@ namespace Portable.Licensing.Tests
                 .AssertValidLicense().ToList();
 
             Assert.NotNull(validationResults);
-            Assert.Equal(1, validationResults.Count());
+            Assert.Single(validationResults);
             Assert.IsType<InvalidSignatureValidationFailure>(validationResults.FirstOrDefault());
 
         }
