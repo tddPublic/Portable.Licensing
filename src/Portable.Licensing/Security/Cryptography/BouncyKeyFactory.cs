@@ -1,4 +1,4 @@
-﻿﻿//
+﻿//
 // Copyright © 2012 - 2013 Nauck IT KG     http://www.nauck-it.de
 //
 // Author:
@@ -23,6 +23,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#if NET45 || NETSTANDARD2_0
 using System;
 using Org.BouncyCastle.Asn1.Pkcs;
 using Org.BouncyCastle.Crypto;
@@ -31,7 +32,7 @@ using Org.BouncyCastle.X509;
 
 namespace Portable.Licensing.Security.Cryptography
 {
-    internal static class KeyFactory
+    internal static class BouncyKeyFactory
     {
         private static readonly string keyEncryptionAlgorithm = PkcsObjectIdentifiers.PbeWithShaAnd3KeyTripleDesCbc.Id;
 
@@ -89,3 +90,4 @@ namespace Portable.Licensing.Security.Cryptography
         }
     }
 }
+#endif
