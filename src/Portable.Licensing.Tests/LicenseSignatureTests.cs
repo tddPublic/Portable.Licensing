@@ -23,6 +23,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Portable.Licensing.Security.Cryptography;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -40,7 +41,7 @@ namespace Portable.Licensing.Tests
         public LicenseSignatureTests()
         {
             passPhrase = Guid.NewGuid().ToString();
-            var keyGenerator = Security.Cryptography.KeyGenerator.Create();
+            var keyGenerator = KeyGenerator.Create();
             var keyPair = keyGenerator.GenerateKeyPair();
             privateKey = keyPair.ToEncryptedPrivateKeyString(passPhrase);
             publicKey = keyPair.ToPublicKeyString();

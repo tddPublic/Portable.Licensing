@@ -1,0 +1,25 @@
+jobs:
+
+- job: build
+  pool:
+    vmImage: 'ubuntu-20.04'
+  container: 'mcr.microsoft.com/dotnet/sdk:5.0'
+
+  steps:
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: test
+      projects: 'src/*Tests/*.csproj'
+      arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+
+  - script: |
+      mkdir $(Build.ArtifactStagingDirectory)/nuget
+      dotnet pack -c Release -o $(Build.ArtifactStagingDirectory)/nuget
+    displayName: 'Package'
+    workingDirectory: src
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)/nuget'
+      artifactName: nuget
+    condition: true

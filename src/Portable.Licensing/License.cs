@@ -1,4 +1,4 @@
-﻿﻿//
+﻿//
 // Copyright © 2012 - 2013 Nauck IT KG     http://www.nauck-it.de
 //
 // Author:
@@ -23,15 +23,13 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Portable.Licensing.Security.Cryptography;
 using System;
 using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using Org.BouncyCastle.Asn1.X9;
-using Org.BouncyCastle.Security;
-using Portable.Licensing.Security.Cryptography;
 
 namespace Portable.Licensing
 {
@@ -41,7 +39,6 @@ namespace Portable.Licensing
     public class License
     {
         private readonly XElement xmlData;
-        private readonly string signatureAlgorithm = X9ObjectIdentifiers.ECDsaWithSha512.Id;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="License"/> class.
@@ -205,13 +202,10 @@ namespace Portable.Licensing
                 if (signTag.Parent != null)
                     signTag.Remove();
 
-                var privKey = KeyFactory.FromEncryptedPrivateKeyString(privateKey, passPhrase);
-
                 var documentToSign = Encoding.UTF8.GetBytes(xmlData.ToString(SaveOptions.DisableFormatting));
-                var signer = SignerUtilities.GetSigner(signatureAlgorithm);
-                signer.Init(true, privKey);
-                signer.BlockUpdate(documentToSign, 0, documentToSign.Length);
-                var signature = signer.GenerateSignature();
+
+                var signer = Signer.Create();
+                var signature = signer.Sign(documentToSign, privateKey, passPhrase);
                 signTag.Value = Convert.ToBase64String(signature);
             }
             finally
@@ -240,14 +234,10 @@ namespace Portable.Licensing
             {
                 signTag.Remove();
 
-                var pubKey = KeyFactory.FromPublicKeyString(publicKey);
-
                 var documentToSign = Encoding.UTF8.GetBytes(xmlDataClone.ToString(SaveOptions.DisableFormatting));
-                var signer = SignerUtilities.GetSigner(signatureAlgorithm);
-                signer.Init(false, pubKey);
-                signer.BlockUpdate(documentToSign, 0, documentToSign.Length);
 
-                return signer.VerifySignature(Convert.FromBase64String(signTag.Value));
+                var signer = Signer.Create();
+                return signer.VerifySignature(documentToSign, Convert.FromBase64String(signTag.Value), publicKey);
             }
             finally
             {

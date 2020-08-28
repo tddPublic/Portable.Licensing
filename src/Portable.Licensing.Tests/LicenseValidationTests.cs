@@ -23,24 +23,37 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
+using Portable.Licensing.Validation;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Portable.Licensing.Validation;
 using Xunit;
 
 namespace Portable.Licensing.Tests
 {
     public class LicenseValidationTests
     {
-        [Fact]
-        public void Can_Validate_Valid_Signature()
+        public static IEnumerable<object[]> Can_Validate_Valid_Signature_Data()
         {
-            var publicKey =
-                @"MIIBKjCB4wYHKoZIzj0CATCB1wIBATAsBgcqhkjOPQEBAiEA/////wAAAAEAAAAAAAAAAAAAAAD///////////////8wWwQg/////wAAAAEAAAAAAAAAAAAAAAD///////////////wEIFrGNdiqOpPns+u9VXaYhrxlHQawzFOw9jvOPD4n0mBLAxUAxJ02CIbnBJNqZnjhE50mt4GffpAEIQNrF9Hy4SxCR/i85uVjpEDydwN9gS3rM6D0oTlF2JjClgIhAP////8AAAAA//////////+85vqtpxeehPO5ysL8YyVRAgEBA0IABNVLQ1xKY80BFMgGXec++Vw7n8vvNrq32PaHuBiYMm0PEj2JoB7qSSWhfgcjxNVJsxqJ6gDQVWgl0r7LH4dr0KU=";
-            var licenseData = @"<License>
+#if NET452
+            yield return new object[]
+            {
+                @"MIIBKjCB4wYHKoZIzj0CATCB1wIBATAsBgcqhkjOPQEBAiEA/////wAAAAEAAAAAAAAAAAAAAAD///////////////8wWwQg/////wAAAAEAAAAAAAAAAAAAAAD///////////////wEIFrGNdiqOpPns+u9VXaYhrxlHQawzFOw9jvOPD4n0mBLAxUAxJ02CIbnBJNqZnjhE50mt4GffpAEIQNrF9Hy4SxCR/i85uVjpEDydwN9gS3rM6D0oTlF2JjClgIhAP////8AAAAA//////////+85vqtpxeehPO5ysL8YyVRAgEBA0IABNVLQ1xKY80BFMgGXec++Vw7n8vvNrq32PaHuBiYMm0PEj2JoB7qSSWhfgcjxNVJsxqJ6gDQVWgl0r7LH4dr0KU=",
+                "MEUCIQCCEDAldOZHHIKvYZRDdzUP4V51y23d6deeK5jIFy27GQIgDz2CndjBh4Vb8tiC3FGQ6fn3GKt8d/P5+luJH0cWv+I=",
+            };
+#endif
+
+            yield return new object[]
+            {
+                "MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQBMjD7TcXgSMbjDDpkOtNe68prK21mPv3c4q8+CSUZKSz9mO8YB0oXmXKCeKORp2v4bDhx6xqNsXCMX07GmgSm7n0A6q71AkjSGDz7iNrW2TSByFql38c6wdtCKneBu4R29u9z7VE/dfGuwDjmo0Fwpo4zaZSrubwCjqkMoU0fr/j7DtQ=",
+                "MIGIAkIBK3XPiLibpWt64FffHsw+ypHl/4v1KUqa6jFjANQ0XKNREW9jJ3EUcspksz3fjeQbqtFackLkV20hKJZijHv95XUCQgHL9XTGEWhn0wHptDF0bW3AxRjpLyHjqlQ1FFw/d/9qKxSjN+gUMs+dHCMFGo7zwlRQpM3fQy6cQVDU72HLjTWzzg==",
+            };
+        }
+
+        [Theory]
+        [MemberData(nameof(Can_Validate_Valid_Signature_Data))]
+        public void Can_Validate_Valid_Signature(string publicKey, string signature)
+        {
+            var licenseData = $@"<License>
                                   <Id>77d4c193-6088-4c64-9663-ed7398ae8c1a</Id>
                                   <Type>Trial</Type>
                                   <Expiration>Sun, 31 Dec 1899 23:00:00 GMT</Expiration>
@@ -51,7 +64,7 @@ namespace Portable.Licensing.Tests
                                   </Customer>
                                   <LicenseAttributes />
                                   <ProductFeatures />
-                                  <Signature>MEUCIQCCEDAldOZHHIKvYZRDdzUP4V51y23d6deeK5jIFy27GQIgDz2CndjBh4Vb8tiC3FGQ6fn3GKt8d/P5+luJH0cWv+I=</Signature>
+                                  <Signature>{signature}</Signature>
                                 </License>";
 
             var license = License.Load(licenseData);
@@ -65,12 +78,28 @@ namespace Portable.Licensing.Tests
             Assert.Empty(validationResults);
         }
 
-        [Fact]
-        public void Can_Validate_Invalid_Signature()
+        public static IEnumerable<object[]> Can_Validate_Invalid_Signature_Data()
         {
-            var publicKey =
-                @"MIIBKjCB4wYHKoZIzj0CATCB1wIBATAsBgcqhkjOPQEBAiEA/////wAAAAEAAAAAAAAAAAAAAAD///////////////8wWwQg/////wAAAAEAAAAAAAAAAAAAAAD///////////////wEIFrGNdiqOpPns+u9VXaYhrxlHQawzFOw9jvOPD4n0mBLAxUAxJ02CIbnBJNqZnjhE50mt4GffpAEIQNrF9Hy4SxCR/i85uVjpEDydwN9gS3rM6D0oTlF2JjClgIhAP////8AAAAA//////////+85vqtpxeehPO5ysL8YyVRAgEBA0IABNVLQ1xKY80BFMgGXec++Vw7n8vvNrq32PaHuBiYMm0PEj2JoB7qSSWhfgcjxNVJsxqJ6gDQVWgl0r7LH4dr0KU=";
-            var licenseData = @"<License>
+#if NET452
+            yield return new object[]
+            {
+                @"MIIBKjCB4wYHKoZIzj0CATCB1wIBATAsBgcqhkjOPQEBAiEA/////wAAAAEAAAAAAAAAAAAAAAD///////////////8wWwQg/////wAAAAEAAAAAAAAAAAAAAAD///////////////wEIFrGNdiqOpPns+u9VXaYhrxlHQawzFOw9jvOPD4n0mBLAxUAxJ02CIbnBJNqZnjhE50mt4GffpAEIQNrF9Hy4SxCR/i85uVjpEDydwN9gS3rM6D0oTlF2JjClgIhAP////8AAAAA//////////+85vqtpxeehPO5ysL8YyVRAgEBA0IABNVLQ1xKY80BFMgGXec++Vw7n8vvNrq32PaHuBiYMm0PEj2JoB7qSSWhfgcjxNVJsxqJ6gDQVWgl0r7LH4dr0KU=",
+                "MEUCIQCCEDAldOZHHIKvYZRDdzUP4V51y23d6deeK5jIFy27GQIgDz2CndjBh4Vb8tiC3FGQ6fn3GKt8d/P5+luJH0cWv+I=",
+            };
+#endif
+
+            yield return new object[]
+            {
+                "MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQBMjD7TcXgSMbjDDpkOtNe68prK21mPv3c4q8+CSUZKSz9mO8YB0oXmXKCeKORp2v4bDhx6xqNsXCMX07GmgSm7n0A6q71AkjSGDz7iNrW2TSByFql38c6wdtCKneBu4R29u9z7VE/dfGuwDjmo0Fwpo4zaZSrubwCjqkMoU0fr/j7DtQ=",
+                "MIGIAkIBK3XPiLibpWt64FffHsw+ypHl/4v1KUqa6jFjANQ0XKNREW9jJ3EUcspksz3fjeQbqtFackLkV20hKJZijHv95XUCQgHL9XTGEWhn0wHptDF0bW3AxRjpLyHjqlQ1FFw/d/9qKxSjN+gUMs+dHCMFGo7zwlRQpM3fQy6cQVDU72HLjTWzzg==",
+            };
+        }
+
+        [Theory]
+        [MemberData(nameof(Can_Validate_Invalid_Signature_Data))]
+        public void Can_Validate_Invalid_Signature(string publicKey, string signature)
+        {
+            var licenseData = $@"<License>
                                   <Id>77d4c193-6088-4c64-9663-ed7398ae8c1a</Id>
                                   <Type>Trial</Type>
                                   <Expiration>Sun, 31 Dec 1899 23:00:00 GMT</Expiration>
@@ -81,7 +110,7 @@ namespace Portable.Licensing.Tests
                                   </Customer>
                                   <LicenseAttributes />
                                   <ProductFeatures />
-                                  <Signature>MEUCIQCCEDAldOZHHIKvYZRDdzUP4V51y23d6deeK5jIFy27GQIgDz2CndjBh4Vb8tiC3FGQ6fn3GKt8d/P5+luJH0cWv+I=</Signature>
+                                  <Signature>{signature}</Signature>
                                 </License>";
 
             var license = License.Load(licenseData);
@@ -126,11 +155,28 @@ namespace Portable.Licensing.Tests
 
         }
 
-        [Fact]
-        public void Can_Validate_CustomAssertion()
+        public static IEnumerable<object[]> Can_Validate_CustomAssertion_Data()
         {
-            var publicKey = @"MIIBKjCB4wYHKoZIzj0CATCB1wIBATAsBgcqhkjOPQEBAiEA/////wAAAAEAAAAAAAAAAAAAAAD///////////////8wWwQg/////wAAAAEAAAAAAAAAAAAAAAD///////////////wEIFrGNdiqOpPns+u9VXaYhrxlHQawzFOw9jvOPD4n0mBLAxUAxJ02CIbnBJNqZnjhE50mt4GffpAEIQNrF9Hy4SxCR/i85uVjpEDydwN9gS3rM6D0oTlF2JjClgIhAP////8AAAAA//////////+85vqtpxeehPO5ysL8YyVRAgEBA0IABNVLQ1xKY80BFMgGXec++Vw7n8vvNrq32PaHuBiYMm0PEj2JoB7qSSWhfgcjxNVJsxqJ6gDQVWgl0r7LH4dr0KU=";
-            var licenseData = @"<License>
+#if NET452
+            yield return new object[]
+            {
+                @"MIIBKjCB4wYHKoZIzj0CATCB1wIBATAsBgcqhkjOPQEBAiEA/////wAAAAEAAAAAAAAAAAAAAAD///////////////8wWwQg/////wAAAAEAAAAAAAAAAAAAAAD///////////////wEIFrGNdiqOpPns+u9VXaYhrxlHQawzFOw9jvOPD4n0mBLAxUAxJ02CIbnBJNqZnjhE50mt4GffpAEIQNrF9Hy4SxCR/i85uVjpEDydwN9gS3rM6D0oTlF2JjClgIhAP////8AAAAA//////////+85vqtpxeehPO5ysL8YyVRAgEBA0IABNVLQ1xKY80BFMgGXec++Vw7n8vvNrq32PaHuBiYMm0PEj2JoB7qSSWhfgcjxNVJsxqJ6gDQVWgl0r7LH4dr0KU=",
+                "MEUCIQCa6A7Cts5ex4rGHAPxiXpy+2ocZzTDSP7SsddopKUx5QIgHnqv0DjoOpc+K9wALqajxxvmLCRJAywCX5vDAjmWqr8=",
+            };
+#endif
+
+            yield return new object[]
+            {
+                "MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQBMjD7TcXgSMbjDDpkOtNe68prK21mPv3c4q8+CSUZKSz9mO8YB0oXmXKCeKORp2v4bDhx6xqNsXCMX07GmgSm7n0A6q71AkjSGDz7iNrW2TSByFql38c6wdtCKneBu4R29u9z7VE/dfGuwDjmo0Fwpo4zaZSrubwCjqkMoU0fr/j7DtQ=",
+                "MIGIAkIB9aL8HVou9zON76K02jeJCSaPXEPQ1oiBFzRD76kt9qUdZInotxAo1bJW0jODzdmKwxoPQESViwfdEJOQtfOj4PwCQgGMXU37vhPziaXkbGrkCXojYdpZt+s813Qi/ePlEVycyKjFrJVzhrxmIol36DqJWHie/uqzfBDHlQwWnzzrn7++FA==",
+            };
+        }
+
+        [Theory]
+        [MemberData(nameof(Can_Validate_CustomAssertion_Data))]
+        public void Can_Validate_CustomAssertion(string publicKey, string signature)
+        {
+            var licenseData = $@"<License>
                               <Id>77d4c193-6088-4c64-9663-ed7398ae8c1a</Id>
                               <Type>Trial</Type>
                               <Expiration>Thu, 31 Dec 2009 23:00:00 GMT</Expiration>
@@ -147,7 +193,7 @@ namespace Portable.Licensing.Tests
                                 <Feature name=""Workflow Module"">yes</Feature>
                                 <Feature name=""Maximum Transactions"">10000</Feature>
                               </ProductFeatures>
-                              <Signature>MEUCIQCa6A7Cts5ex4rGHAPxiXpy+2ocZzTDSP7SsddopKUx5QIgHnqv0DjoOpc+K9wALqajxxvmLCRJAywCX5vDAjmWqr8=</Signature>
+                              <Signature>{signature}</Signature>
                             </License>";
 
             var license = License.Load(licenseData);
