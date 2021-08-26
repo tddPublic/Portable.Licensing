@@ -23,26 +23,26 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using System;
+using System.Collections.Generic;
+
 namespace Portable.Licensing
 {
     /// <summary>
-    /// Defines the type of a <see cref="License"/>
+    /// Implementation of the <see cref="ILicenseBuilder"/>, a fluent api
+    /// to create new licenses.
     /// </summary>
-    public enum LicenseType
+    internal partial class LicenseBuilder: ILicenseBuilder
     {
         /// <summary>
-        /// For trial or demo use
+        /// Sets the unique identifier of the <see cref="License"/>.
         /// </summary>
-        Trial = 1,
-
-        /// <summary>
-        /// Standard license
-        /// </summary>
-        Standard = 2,
-
-        /// <summary>
-        /// Subscription license
-        /// </summary>
-        Subscription = 3
+        /// <param name="id">The unique identifier of the <see cref="License"/>.</param>
+        /// <returns>The <see cref="ILicenseBuilder"/>.</returns>
+        public ILicenseBuilder From(string issuer)
+        {
+            license.Issuer = issuer;
+            return this;
+        }
     }
 }

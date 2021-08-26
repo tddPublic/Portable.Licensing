@@ -36,7 +36,7 @@ namespace Portable.Licensing
     /// <summary>
     /// A software license
     /// </summary>
-    public class License
+    public partial class License
     {
         private readonly XElement xmlData;
 
@@ -77,7 +77,7 @@ namespace Portable.Licensing
             {
                 return
                     (LicenseType)
-                    Enum.Parse(typeof (LicenseType), GetTag("Type") ?? LicenseType.Trial.ToString(), false);
+                    Enum.Parse(typeof(LicenseType), GetTag("Type") ?? LicenseType.Trial.ToString(), false);
             }
             set { if (!IsSigned) SetTag("Type", value.ToString()); }
         }

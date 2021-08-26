@@ -32,7 +32,7 @@ namespace Portable.Licensing
     /// Implementation of the <see cref="ILicenseBuilder"/>, a fluent api
     /// to create new licenses.
     /// </summary>
-    internal class LicenseBuilder : ILicenseBuilder
+    internal partial class LicenseBuilder : ILicenseBuilder
     {
         private readonly License license;
 
