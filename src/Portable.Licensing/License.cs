@@ -116,25 +116,48 @@ namespace Portable.Licensing
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="Customer"/> of this <see cref="License"/>.
+        /// Gets or sets the <see cref="Memo"/> of this <see cref="License"/>.
         /// </summary>
-        public Customer Customer
+        public Memo Memo
         {
             get
             {
-                var xmlElement = xmlData.Element("Customer");
+                var xmlElement = xmlData.Element("Memo");
 
                 if (!IsSigned && xmlElement == null)
                 {
-                    xmlData.Add(new XElement("Customer"));
-                    xmlElement = xmlData.Element("Customer");
+                    xmlData.Add(new XElement("Memo"));
+                    xmlElement = xmlData.Element("Memo");
                 }
                 else if (IsSigned && xmlElement == null)
                 {
                     return null;
                 }
 
-                return new Customer(xmlElement);
+                return new Memo(xmlElement);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Constraint"/> of this <see cref="License"/>.
+        /// </summary>
+        public Constraint Constraint
+        {
+            get
+            {
+                var xmlElement = xmlData.Element("Constraint");
+
+                if (!IsSigned && xmlElement == null)
+                {
+                    xmlData.Add(new XElement("Constraint"));
+                    xmlElement = xmlData.Element("Constraint");
+                }
+                else if (IsSigned && xmlElement == null)
+                {
+                    return null;
+                }
+
+                return new Constraint(xmlElement);
             }
         }
 
@@ -156,7 +179,7 @@ namespace Portable.Licensing
                 {
                     return null;
                 }
-                
+
                 return new LicenseAttributes(xmlElement, "Attribute");
             }
         }
@@ -307,7 +330,7 @@ namespace Portable.Licensing
         {
             xmlData.Save(stream);
         }
-        
+
         /// <summary>
         /// Serialize this <see cref="License"/> to a <see cref="TextWriter"/>.
         /// </summary>
