@@ -83,16 +83,6 @@ namespace Portable.Licensing
         }
 
         /// <summary>
-        /// Get or sets the quantity of this license.
-        /// E.g. the count of per-developer-licenses.
-        /// </summary>
-        public int Quantity
-        {
-            get { return int.Parse(GetTag("Quantity") ?? "0"); }
-            set { if (!IsSigned) SetTag("Quantity", value.ToString()); }
-        }
-
-        /// <summary>
         /// Gets or sets the product features of this <see cref="License"/>.
         /// </summary>
         public LicenseAttributes ProductFeatures
@@ -182,24 +172,6 @@ namespace Portable.Licensing
 
                 return new LicenseAttributes(xmlElement, "Attribute");
             }
-        }
-
-        /// <summary>
-        /// Gets or sets the expiration date of this <see cref="License"/>.
-        /// Use this property to set the expiration date for a trial license
-        /// or the expiration of support & subscription updates for a standard license.
-        /// </summary>
-        public DateTime Expiration
-        {
-            get
-            {
-                return
-                    DateTime.ParseExact(
-                        GetTag("Expiration") ??
-                        DateTime.MaxValue.ToUniversalTime().ToString("r", CultureInfo.InvariantCulture)
-                        , "r", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
-            }
-            set { if (!IsSigned) SetTag("Expiration", value.ToUniversalTime().ToString("r", CultureInfo.InvariantCulture)); }
         }
 
         /// <summary>

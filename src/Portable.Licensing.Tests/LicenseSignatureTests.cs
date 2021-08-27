@@ -70,10 +70,10 @@ namespace Portable.Licensing.Tests
             // validate default values when not set
             Assert.Equal(Guid.Empty, license.Id);
             Assert.Equal(LicenseType.Trial, license.Type);
-            Assert.Equal(0, license.Quantity);
+            Assert.Equal(0, license.Constraint.Concurrent);
             Assert.Null(license.ProductFeatures);
-            Assert.Null(license.Customer);
-            Assert.Equal(ConvertToRfc1123(DateTime.MaxValue), license.Expiration);
+            Assert.Null(license.Memo.LicenseTo);
+            Assert.Equal(ConvertToRfc1123(DateTime.MaxValue), license.Constraint.EndDate);
 
             // verify signature
             Assert.True(license.VerifySignature(publicKey));
@@ -84,7 +84,6 @@ namespace Portable.Licensing.Tests
         {
             var licenseId = Guid.NewGuid();
             var customerName = "Max Mustermann";
-            var customerEmail = "max@mustermann.tld";
             var expirationDate = DateTime.Now.AddYears(1);
             var productFeatures = new Dictionary<string, string>
                                       {
@@ -98,7 +97,7 @@ namespace Portable.Licensing.Tests
                                  .As(LicenseType.Standard)
                                  .WithMaximumUtilization(10)
                                  .WithProductFeatures(productFeatures)
-                                 .LicensedTo(customerName, customerEmail)
+                                 .LicensedTo(customerName)
                                  .ExpiresAt(expirationDate)
                                  .CreateAndSignWithPrivateKey(privateKey, passPhrase);
 
@@ -112,13 +111,12 @@ namespace Portable.Licensing.Tests
             // validate default values when not set
             Assert.Equal(licenseId, license.Id);
             Assert.Equal(LicenseType.Standard, license.Type);
-            Assert.Equal(10, license.Quantity);
+            Assert.Equal(10, license.Constraint.Concurrent);
             Assert.NotNull(license.ProductFeatures);
             Assert.Equal(productFeatures, license.ProductFeatures.GetAll());
-            Assert.NotNull(license.Customer);
-            Assert.Equal(customerName, license.Customer.Name);
-            Assert.Equal(customerEmail, license.Customer.Email);
-            Assert.Equal(ConvertToRfc1123(expirationDate), license.Expiration);
+            Assert.NotNull(license.Memo.LicenseTo);
+            Assert.Equal(customerName, license.Memo.LicenseTo);
+            Assert.Equal(ConvertToRfc1123(expirationDate), license.Constraint.EndDate);
 
             // verify signature
             Assert.True(license.VerifySignature(publicKey));
@@ -129,7 +127,6 @@ namespace Portable.Licensing.Tests
         {
             var licenseId = Guid.NewGuid();
             var customerName = "Max Mustermann";
-            var customerEmail = "max@mustermann.tld";
             var expirationDate = DateTime.Now.AddYears(1);
             var productFeatures = new Dictionary<string, string>
                                       {
@@ -143,7 +140,7 @@ namespace Portable.Licensing.Tests
                                  .As(LicenseType.Standard)
                                  .WithMaximumUtilization(10)
                                  .WithProductFeatures(productFeatures)
-                                 .LicensedTo(customerName, customerEmail)
+                                 .LicensedTo(customerName)
                                  .ExpiresAt(expirationDate)
                                  .CreateAndSignWithPrivateKey(privateKey, passPhrase);
 
@@ -167,13 +164,12 @@ namespace Portable.Licensing.Tests
             // validate default values when not set
             Assert.Equal(licenseId, hackedLicense.Id);
             Assert.Equal(LicenseType.Standard, hackedLicense.Type);
-            Assert.Equal(11, hackedLicense.Quantity); // now with 10+1 licenses
+            Assert.Equal(11, hackedLicense.Constraint.Concurrent); // now with 10+1 licenses
             Assert.NotNull(hackedLicense.ProductFeatures);
             Assert.Equal(productFeatures, hackedLicense.ProductFeatures.GetAll());
-            Assert.NotNull(hackedLicense.Customer);
-            Assert.Equal(customerName, hackedLicense.Customer.Name);
-            Assert.Equal(customerEmail, hackedLicense.Customer.Email);
-            Assert.Equal(ConvertToRfc1123(expirationDate), hackedLicense.Expiration);
+            Assert.NotNull(hackedLicense.Memo);
+            Assert.Equal(customerName, hackedLicense.Memo.LicenseTo);
+            Assert.Equal(ConvertToRfc1123(expirationDate), hackedLicense.Constraint.EndDate);
 
             // verify signature
             Assert.False(hackedLicense.VerifySignature(publicKey));

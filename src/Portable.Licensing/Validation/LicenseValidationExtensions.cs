@@ -53,7 +53,7 @@ namespace Portable.Licensing.Validation
         {
             var validationChainBuilder = (validationChain as ValidationChainBuilder);
             var validator = validationChainBuilder.StartValidatorChain();
-            validator.Validate = license => license.Expiration > DateTime.Now;
+            validator.Validate = license => license.Constraint.EndDate > DateTime.Now;
 
             validator.FailureResult = new LicenseExpiredValidationFailure()
                                           {
@@ -79,7 +79,7 @@ namespace Portable.Licensing.Validation
                     asm =>
                     asm.GetCustomAttributes(typeof (AssemblyBuildDateAttribute))
                        .Cast<AssemblyBuildDateAttribute>()
-                       .All(a => a.BuildDate < license.Expiration));
+                       .All(a => a.BuildDate < license.Constraint.EndDate));
 
             validator.FailureResult = new LicenseExpiredValidationFailure()
                                           {

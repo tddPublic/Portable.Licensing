@@ -48,43 +48,33 @@ namespace Portable.Licensing
         ILicenseBuilder As(LicenseType type);
 
         /// <summary>
-        /// Sets the expiration date of the <see cref="License"/>.
+        /// Sets the expiration date of the <see cref="License.Constraint"/>.
         /// </summary>
-        /// <param name="date">The expiration date of the <see cref="License"/>.</param>
+        /// <param name="date">The constraint start date of the <see cref="License.Constraint"/>.</param>
+        /// <returns>The <see cref="ILicenseBuilder"/>.</returns>
+        ILicenseBuilder EffectiveFrom(DateTime date);
+
+        /// <summary>
+        /// Sets the expiration date of the <see cref="License.Constraint"/>.
+        /// </summary>
+        /// <param name="date">The constraint end date of the <see cref="License.Constraint"/>.</param>
         /// <returns>The <see cref="ILicenseBuilder"/>.</returns>
         ILicenseBuilder ExpiresAt(DateTime date);
 
         /// <summary>
-        /// Sets the maximum utilization of the <see cref="License"/>.
+        /// Sets the maximum utilization of the <see cref="License.Constraint"/>.
         /// This can be the quantity of developers for a "per-developer-license".
         /// </summary>
-        /// <param name="utilization">The maximum utilization of the <see cref="License"/>.</param>
+        /// <param name="utilization">The maximum utilization of the <see cref="License.Constraint"/>.</param>
         /// <returns>The <see cref="ILicenseBuilder"/>.</returns>
         ILicenseBuilder WithMaximumUtilization(int utilization);
 
         /// <summary>
-        /// Sets the <see cref="Customer">license holder</see> of the <see cref="License"/>.
+        /// Sets the <see cref="License.Memo">license holder</see> of the <see cref="License.Memo"/>.
         /// </summary>
         /// <param name="name">The name of the license holder.</param>
-        /// <param name="email">The email of the license holder.</param>
         /// <returns>The <see cref="ILicenseBuilder"/>.</returns>
-        ILicenseBuilder LicensedTo(string name, string email);
-
-        /// <summary>
-        /// Sets the <see cref="Customer">license holder</see> of the <see cref="License"/>.
-        /// </summary>
-        /// <param name="name">The name of the license holder.</param>
-        /// <param name="email">The email of the license holder.</param>
-        /// <param name="configureCustomer">A delegate to configure the license holder.</param>
-        /// <returns>The <see cref="ILicenseBuilder"/>.</returns>
-        ILicenseBuilder LicensedTo(string name, string email, Action<Customer> configureCustomer);
-
-        /// <summary>
-        /// Sets the <see cref="Customer">license holder</see> of the <see cref="License"/>.
-        /// </summary>
-        /// <param name="configureCustomer">A delegate to configure the license holder.</param>
-        /// <returns>The <see cref="ILicenseBuilder"/>.</returns>
-        ILicenseBuilder LicensedTo(Action<Customer> configureCustomer);
+        ILicenseBuilder LicensedTo(string name);
 
         /// <summary>
         /// Sets the licensed product features of the <see cref="License"/>.
