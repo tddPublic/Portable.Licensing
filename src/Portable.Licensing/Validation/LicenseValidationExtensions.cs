@@ -53,13 +53,25 @@ namespace Portable.Licensing.Validation
         {
             var validationChainBuilder = (validationChain as ValidationChainBuilder);
             var validator = validationChainBuilder.StartValidatorChain();
-            validator.Validate = license => license.Constraint.EndDate > DateTime.Now;
+            var now = DateTime.Now;
+            validator.Validate = license => license.Constraint.StartDate < now;
 
             validator.FailureResult = new LicenseExpiredValidationFailure()
-                                          {
-                                              Message = "Licensing for this product has expired!",
-                                              HowToResolve = @"Your license is expired. Please contact your distributor/vendor to renew the license."
-                                          };
+            {
+                Message = "Licensing for this product has not started!",
+                HowToResolve = @"Your license is not started. Please contact your distributor/vendor to check the license."
+            };
+
+            validationChainBuilder.CompleteValidatorChain();
+
+            validator = validationChainBuilder.StartValidatorChain();
+            validator.Validate = license => license.Constraint.EndDate > now;
+
+            validator.FailureResult = new LicenseExpiredValidationFailure()
+            {
+                Message = "Licensing for this product has expired!",
+                HowToResolve = @"Your license is expired. Please contact your distributor/vendor to renew the license."
+            };
 
             return validationChainBuilder;
         }
