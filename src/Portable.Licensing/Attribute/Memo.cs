@@ -58,7 +58,7 @@ namespace Portable.Licensing
                 return
                     DateTime.ParseExact(
                         GetTag("CreationDate") ??
-                        DateTime.MaxValue.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)
+                        DateTime.MinValue.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)
                         , "s", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
             }
             set { SetTag("CreationDate", value.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)); }

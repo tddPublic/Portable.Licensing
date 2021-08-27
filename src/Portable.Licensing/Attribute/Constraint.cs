@@ -87,10 +87,10 @@ namespace Portable.Licensing
         /// <summary>
         /// Gets or sets the CAL of this <see cref="Constraint"/>.
         /// </summary>
-        public string CAL
+        public int CAL
         {
-            get { return GetTag("CAL"); }
-            set { SetTag("CAL", value); }
+            get { return int.Parse(GetTag("CAL") ?? "0"); }
+            set { SetTag("CAL", value.ToString()); }
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Portable.Licensing
                 return
                     DateTime.ParseExact(
                         GetTag("StartDate") ??
-                        DateTime.MaxValue.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)
+                        DateTime.MinValue.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)
                         , "s", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
             }
             set { SetTag("StartDate", value.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)); }
