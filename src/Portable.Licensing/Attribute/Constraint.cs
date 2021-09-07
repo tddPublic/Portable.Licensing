@@ -121,10 +121,10 @@ namespace Portable.Licensing
                 return
                     DateTime.ParseExact(
                         GetTag("StartDate") ??
-                        DateTime.MinValue.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)
-                        , "s", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+                        DateTime.MinValue.ToString("O", CultureInfo.InvariantCulture)
+                        , "O", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
             }
-            set { SetTag("StartDate", value.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)); }
+            set { SetTag("StartDate", value.ToString("O", CultureInfo.InvariantCulture)); }
         }
 
         /// <summary>
@@ -137,10 +137,10 @@ namespace Portable.Licensing
                 return
                     DateTime.ParseExact(
                         GetTag("EndDate") ??
-                        DateTime.MaxValue.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)
-                        , "s", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+                        DateTime.MaxValue.ToString("O", CultureInfo.InvariantCulture)
+                        , "O", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
             }
-            set { SetTag("EndDate", value.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)); }
+            set { SetTag("EndDate", value.ToString("O", CultureInfo.InvariantCulture)); }
         }
     }
 }

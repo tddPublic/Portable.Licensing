@@ -73,7 +73,7 @@ namespace Portable.Licensing
         /// <returns>The <see cref="ILicenseBuilder"/>.</returns>
         public ILicenseBuilder EffectiveFrom(DateTime date)
         {
-            license.Constraint.StartDate = date.ToUniversalTime();
+            license.Constraint.StartDate = date;
             return this;
         }
 
@@ -84,7 +84,7 @@ namespace Portable.Licensing
         /// <returns>The <see cref="ILicenseBuilder"/>.</returns>
         public ILicenseBuilder ExpiresAt(DateTime date)
         {
-            license.Constraint.EndDate = date.ToUniversalTime();
+            license.Constraint.EndDate = date;
             return this;
         }
 

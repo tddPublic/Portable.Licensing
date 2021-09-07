@@ -47,11 +47,11 @@ namespace Portable.Licensing.Tests
             publicKey = keyPair.ToPublicKeyString();
         }
 
-        private static DateTime ConvertToRfc1123(DateTime dateTime)
+        private static DateTime ConvertToIso8601(DateTime dateTime)
         {
             return DateTime.ParseExact(
-                dateTime.ToUniversalTime().ToString("r", CultureInfo.InvariantCulture)
-                , "r", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+                dateTime.ToString("O", CultureInfo.InvariantCulture)
+                , "O", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace Portable.Licensing.Tests
             Assert.Equal(0, license.Constraint.Concurrent);
             Assert.Null(license.ProductFeatures);
             Assert.Null(license.Memo.LicenseTo);
-            Assert.Equal(ConvertToRfc1123(DateTime.MaxValue), license.Constraint.EndDate);
+            Assert.Equal(ConvertToIso8601(DateTime.MaxValue), license.Constraint.EndDate);
 
             // verify signature
             Assert.True(license.VerifySignature(publicKey));
@@ -116,7 +116,7 @@ namespace Portable.Licensing.Tests
             Assert.Equal(productFeatures, license.ProductFeatures.GetAll());
             Assert.NotNull(license.Memo.LicenseTo);
             Assert.Equal(customerName, license.Memo.LicenseTo);
-            Assert.Equal(ConvertToRfc1123(expirationDate), license.Constraint.EndDate);
+            Assert.Equal(ConvertToIso8601(expirationDate), license.Constraint.EndDate);
 
             // verify signature
             Assert.True(license.VerifySignature(publicKey));
@@ -169,7 +169,7 @@ namespace Portable.Licensing.Tests
             Assert.Equal(productFeatures, hackedLicense.ProductFeatures.GetAll());
             Assert.NotNull(hackedLicense.Memo);
             Assert.Equal(customerName, hackedLicense.Memo.LicenseTo);
-            Assert.Equal(ConvertToRfc1123(expirationDate), hackedLicense.Constraint.EndDate);
+            Assert.Equal(ConvertToIso8601(expirationDate), hackedLicense.Constraint.EndDate);
 
             // verify signature
             Assert.False(hackedLicense.VerifySignature(publicKey));
