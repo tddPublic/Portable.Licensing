@@ -7,7 +7,7 @@ namespace Portable.Licensing.Security.Cryptography
     {
         public override KeyPair GenerateKeyPair()
         {
-            return new NativeKeyPair(ECDsa.Create());
+            return new NativeKeyPair(RSA.Create());
         }
     }
 }

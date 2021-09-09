@@ -37,7 +37,7 @@ Portable.Licensing is uses cryptographic algorithms to help you ensure that your
 	</ItemGroup>
 	
 	<ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
-		<PackageReference Include="System.Security.Cryptography.Pkcs" Version="4.7.0" />
+		<PackageReference Include="System.Security.Cryptography.Xml" Version="5.0.0"/>
 	</ItemGroup>
 
 	<ItemGroup>

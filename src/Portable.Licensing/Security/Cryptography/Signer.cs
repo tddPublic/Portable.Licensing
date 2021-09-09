@@ -11,8 +11,8 @@
 #endif
         }
 
-        public abstract byte[] Sign(byte[] documentToSign, string privateKey, string passPhrase);
+        public abstract string Sign(string documentToSign, string privateKey, string passPhrase);
 
-        public abstract bool VerifySignature(byte[] documentToSign, byte[] signature, string publicKey);
+        public abstract bool VerifySignature(string documentToSign, byte[] signature, string publicKey);
     }
 }

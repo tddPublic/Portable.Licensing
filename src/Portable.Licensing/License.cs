@@ -25,9 +25,7 @@
 
 using Portable.Licensing.Security.Cryptography;
 using System;
-using System.Globalization;
 using System.IO;
-using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -197,11 +195,12 @@ namespace Portable.Licensing
                 if (signTag.Parent != null)
                     signTag.Remove();
 
-                var documentToSign = Encoding.UTF8.GetBytes(xmlData.ToString(SaveOptions.DisableFormatting));
+                var documentToSign = xmlData.ToString(SaveOptions.DisableFormatting);
 
                 var signer = Signer.Create();
                 var signature = signer.Sign(documentToSign, privateKey, passPhrase);
-                signTag.Value = Convert.ToBase64String(signature);
+
+                signTag = XElement.Parse(signature);
             }
             finally
             {
@@ -220,24 +219,11 @@ namespace Portable.Licensing
             // Otherwise other thread accessing xmlData at the same time may see the "changed" (and invalid!)
             // copy of xmlData.
             var xmlDataClone = new XElement(xmlData);
-            var signTag = xmlDataClone.Element("Signature");
 
-            if (signTag == null)
-                return false;
+            var documentToSign = xmlDataClone.ToString();
 
-            try
-            {
-                signTag.Remove();
-
-                var documentToSign = Encoding.UTF8.GetBytes(xmlDataClone.ToString(SaveOptions.DisableFormatting));
-
-                var signer = Signer.Create();
-                return signer.VerifySignature(documentToSign, Convert.FromBase64String(signTag.Value), publicKey);
-            }
-            finally
-            {
-                xmlDataClone.Add(signTag);
-            }
+            var signer = Signer.Create();
+            return signer.VerifySignature(documentToSign, null, publicKey);
         }
 
         /// <summary>
