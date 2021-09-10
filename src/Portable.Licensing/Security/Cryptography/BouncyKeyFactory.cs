@@ -27,6 +27,7 @@
 using System;
 using Org.BouncyCastle.Asn1.Pkcs;
 using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.X509;
 
@@ -60,9 +61,9 @@ namespace Portable.Licensing.Security.Cryptography
         /// <param name="privateKey">The encrypted private key.</param>
         /// <param name="passPhrase">The pass phrase to decrypt the private key.</param>
         /// <returns>The private key.</returns>
-        public static AsymmetricKeyParameter FromEncryptedPrivateKeyString(string privateKey, string passPhrase)
+        public static RsaKeyParameters FromEncryptedPrivateKeyString(string privateKey, string passPhrase)
         {
-            return PrivateKeyFactory.DecryptKey(passPhrase.ToCharArray(), Convert.FromBase64String(privateKey));
+            return PrivateKeyFactory.DecryptKey(passPhrase.ToCharArray(), Convert.FromBase64String(privateKey)) as RsaKeyParameters;
         }
 
         /// <summary>
@@ -84,9 +85,9 @@ namespace Portable.Licensing.Security.Cryptography
         /// </summary>
         /// <param name="publicKey">The encoded public key.</param>
         /// <returns>The public key.</returns>
-        public static AsymmetricKeyParameter FromPublicKeyString(string publicKey)
+        public static RsaKeyParameters FromPublicKeyString(string publicKey)
         {
-            return PublicKeyFactory.CreateKey(Convert.FromBase64String(publicKey));
+            return PublicKeyFactory.CreateKey(Convert.FromBase64String(publicKey)) as RsaKeyParameters;
         }
     }
 }
