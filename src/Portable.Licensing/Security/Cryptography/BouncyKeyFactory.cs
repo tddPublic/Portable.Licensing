@@ -61,9 +61,9 @@ namespace Portable.Licensing.Security.Cryptography
         /// <param name="privateKey">The encrypted private key.</param>
         /// <param name="passPhrase">The pass phrase to decrypt the private key.</param>
         /// <returns>The private key.</returns>
-        public static RsaKeyParameters FromEncryptedPrivateKeyString(string privateKey, string passPhrase)
+        public static RsaPrivateCrtKeyParameters FromEncryptedPrivateKeyString(string privateKey, string passPhrase)
         {
-            return PrivateKeyFactory.DecryptKey(passPhrase.ToCharArray(), Convert.FromBase64String(privateKey)) as RsaKeyParameters;
+            return PrivateKeyFactory.DecryptKey(passPhrase.ToCharArray(), Convert.FromBase64String(privateKey)) as RsaPrivateCrtKeyParameters;
         }
 
         /// <summary>

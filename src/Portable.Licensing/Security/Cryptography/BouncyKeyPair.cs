@@ -43,7 +43,6 @@ namespace Portable.Licensing.Security.Cryptography
         internal BouncyKeyPair(AsymmetricCipherKeyPair keyPair)
         {
             this.keyPair = keyPair;
-
         }
 
         /// <summary>

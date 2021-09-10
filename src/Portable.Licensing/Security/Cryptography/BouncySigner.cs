@@ -10,7 +10,7 @@ namespace Portable.Licensing.Security.Cryptography
         {
             var privKey = BouncyKeyFactory.FromEncryptedPrivateKeyString(privateKey, passPhrase);
 
-            RSA Key = DotNetUtilities.ToRSA(privKey);
+            var Key = DotNetUtilities.ToRSA(privKey);
 
             return Key;
         }
@@ -19,7 +19,7 @@ namespace Portable.Licensing.Security.Cryptography
         {
             var pubKey = BouncyKeyFactory.FromPublicKeyString(publicKey);
 
-            RSA Key = DotNetUtilities.ToRSA(pubKey);
+            var Key = DotNetUtilities.ToRSA(pubKey);
 
             return Key;
         }

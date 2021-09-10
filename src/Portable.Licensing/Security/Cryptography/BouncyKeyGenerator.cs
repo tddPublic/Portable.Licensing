@@ -39,10 +39,10 @@ namespace Portable.Licensing.Security.Cryptography
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BouncyKeyGenerator"/> class
-        /// with a key size of 256 bits.
+        /// with a key size of 2048 bits.
         /// </summary>
         public BouncyKeyGenerator()
-            : this(256)
+            : this(2048)
         {
         }
 
@@ -51,12 +51,8 @@ namespace Portable.Licensing.Security.Cryptography
         /// with the specified key size.
         /// </summary>
         /// <remarks>Following key sizes are supported:
-        /// - 192
-        /// - 224
-        /// - 239
-        /// - 256 (default)
-        /// - 384
-        /// - 521</remarks>
+        /// - 1024
+        /// - 2048(default)</remarks>
         /// <param name="keySize">The key size.</param>
         public BouncyKeyGenerator(int keySize)
             : this(keySize, null)
@@ -68,12 +64,8 @@ namespace Portable.Licensing.Security.Cryptography
         /// with the specified key size and seed.
         /// </summary>
         /// <remarks>Following key sizes are supported:
-        /// - 192
-        /// - 224
-        /// - 239
-        /// - 256 (default)
-        /// - 384
-        /// - 521</remarks>
+        /// - 1024
+        /// - 2048(default)</remarks>
         /// <param name="keySize">The key size.</param>
         /// <param name="seed">The seed.</param>
         public BouncyKeyGenerator(int keySize, byte[] seed)
@@ -86,7 +78,7 @@ namespace Portable.Licensing.Security.Cryptography
             secureRandom.SetSeed(seed);
 
             var keyParams = new KeyGenerationParameters(secureRandom, keySize);
-            keyGenerator = new ECKeyPairGenerator();
+            keyGenerator = new RsaKeyPairGenerator();
             keyGenerator.Init(keyParams);
         }
 
