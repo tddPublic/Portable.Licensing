@@ -16,11 +16,11 @@ namespace Portable.Licensing.Tests
         [InlineData("MIGHAkIB1OypetzT5Dml4axBDyp2wi6kroAEAtR6PbewRMBNJy4CTDyxTdThk++WmvUiB4mT8VbhvRl4+XZZUdlU1rhmrhwCQUb3qclZf9aHr63WGU8ojs9zxZHvwC8+vKjakUBuzLmZ/6N+R38NNu6Uqxdt83DTS5/nAyKScgp08BgRCPHxWJWO")] // .NET 5.0
         public void VerifySignature_Works(string signature)
         {
-            var data = Encoding.UTF8.GetBytes("Hello, World!");
+            var data = "Hello, World!";
 
             var signer = Signer.Create();
 
-            Assert.True(signer.VerifySignature(data, Convert.FromBase64String(signature), publicKey));
+            Assert.True(signer.VerifySignature(data, publicKey));
         }
     }
 }

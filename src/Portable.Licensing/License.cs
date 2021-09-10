@@ -223,7 +223,7 @@ namespace Portable.Licensing
             var documentToSign = xmlDataClone.ToString();
 
             var signer = Signer.Create();
-            return signer.VerifySignature(documentToSign, null, publicKey);
+            return signer.VerifySignature(documentToSign, publicKey);
         }
 
         /// <summary>
