@@ -96,7 +96,33 @@ namespace Portable.Licensing
         /// <returns>The <see cref="ILicenseBuilder"/>.</returns>
         public ILicenseBuilder WithMaximumUtilization(int utilization)
         {
-            license.Constraint.Concurrent = utilization;
+            license.Constraint.CAL = utilization;
+            return this;
+        }
+
+        public ILicenseBuilder WithMaximumConcurrent(int concurrent)
+        {
+            license.Constraint.Concurrent = concurrent;
+            return this;
+        }
+
+        public ILicenseBuilder WithInstallationRestrictions(string assembly, string version, string machineSID, string domain, string ips, string cpu)
+        {
+            license.Constraint.Assembly = assembly;
+            license.Constraint.Version = version;
+            license.Constraint.MachineSID = machineSID;
+            license.Constraint.Domain = domain;
+            license.Constraint.IPs = ips;
+            license.Constraint.CPU = cpu;
+            return this;
+        }
+
+        public ILicenseBuilder WithMemo(string issuer, string licenseTo, string contractId, string description)
+        {
+            license.Memo.Issuer = issuer;
+            license.Memo.LicenseTo = licenseTo;
+            license.Memo.ContractId = contractId;
+            license.Memo.Description = description;
             return this;
         }
 

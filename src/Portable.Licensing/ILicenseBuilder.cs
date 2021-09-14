@@ -69,6 +69,12 @@ namespace Portable.Licensing
         /// <returns>The <see cref="ILicenseBuilder"/>.</returns>
         ILicenseBuilder WithMaximumUtilization(int utilization);
 
+        ILicenseBuilder WithMaximumConcurrent(int concurrent);
+
+        ILicenseBuilder WithInstallationRestrictions(string assembly, string version, string machineSID, string domain, string ips, string cpu);
+
+        ILicenseBuilder WithMemo(string issuer, string licenseTo, string contractId, string description);
+
         /// <summary>
         /// Sets the <see cref="License.Memo">license holder</see> of the <see cref="License.Memo"/>.
         /// </summary>
