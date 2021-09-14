@@ -4,11 +4,11 @@
 		<Authors>Nauck IT KG</Authors>
 		<TargetFrameworks>net45;netstandard2.0;net5.0</TargetFrameworks>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<AssemblyName>CoreCompat.Portable.Licensing</AssemblyName>
+		<AssemblyName>GSS.Portable.Licensing</AssemblyName>
 		<AssemblyOriginatorKeyFile>Portable.Licensing.snk</AssemblyOriginatorKeyFile>
 		<SignAssembly>true</SignAssembly>
 		<PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
-		<PackageId>CoreCompat.Portable.Licensing</PackageId>
+		<PackageId>GSS.Portable.Licensing</PackageId>
 		<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.5' ">$(PackageTargetFallback);dotnet</PackageTargetFallback>
 		<PackageTags>Portable.Licensing Portable Licensing License Key KeyGenerator Protection Signing Nauck</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -37,7 +37,7 @@ Portable.Licensing is uses cryptographic algorithms to help you ensure that your
 	</ItemGroup>
 	
 	<ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
-		<PackageReference Include="System.Security.Cryptography.Xml" Version="5.0.0"/>
+		<PackageReference Include="System.Security.Cryptography.Xml" Version="5.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
