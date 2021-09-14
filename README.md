@@ -1,5 +1,4 @@
 # Portable.Licensing
-[![Build status](https://ci.appveyor.com/api/projects/status/y73p80e01wg1c8j7?svg=true)](https://ci.appveyor.com/project/qmfrederik/portable-licensing)
 
 ## About Portable.Licensing
 
@@ -24,13 +23,13 @@ It is targeting the *Portable Class Library* and thus runs on nearly every .NET/
 
 ### Download ###
 
-[CoreCompat.Portable.Licensing](https://nuget.org/packages/CoreCompat.Portable.Licensing) is distributed with the popular NuGet Packaging Manager. This will make it easier for developers to get the Portable.Licensing distribution into their project.
+[GSS.Portable.Licensing](https://nuget.org/packages/GSS.Portable.Licensing) is distributed with the popular NuGet Packaging Manager. This will make it easier for developers to get the Portable.Licensing distribution into their project.
 
 Go to the NuGet website for more details: [http://nuget.org/](http://nuget.org/)
 
 ### Create a private and public key for your product ###
 
-CoreCompat.Portable.Licensing uses the Elliptic Curve Digital Signature Algorithmus (ECDSA) to ensure the license cannot be altered after creation.
+GSS.Portable.Licensing uses the RSA(cryptosystem) with XML Signature to ensure the license cannot be altered after creation.
 
 First you need to create a new public/private key pair for your product:
 
@@ -62,7 +61,7 @@ var license = License.New()
                                       {"Purchase Module", "yes"},  
                                       {"Maximum Transactions", "10000"}  
                                   })  
-    .LicensedTo("John Doe", "john.doe@yourmail.here")  
+    .LicensedTo("John Doe")  
     .CreateAndSignWithPrivateKey(privateKey, passPhrase);
 ```
 
