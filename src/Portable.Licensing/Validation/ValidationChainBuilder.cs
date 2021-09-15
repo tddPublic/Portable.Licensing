@@ -1,4 +1,4 @@
-﻿﻿//
+﻿//
 // Copyright © 2012 - 2013 Nauck IT KG     http://www.nauck-it.de
 //
 // Author:
@@ -72,16 +72,30 @@ namespace Portable.Licensing.Validation
 
             while (validators.Count > 0)
             {
+                IValidationFailure result = null;
                 var validator = validators.Dequeue();
-                if (validator.ValidateWhen != null && !validator.ValidateWhen(license))
-                    continue;
 
-                if (!validator.Validate(license))
-                    yield return validator.FailureResult
-                                 ?? new GeneralValidationFailure
-                                        {
-                                            Message = "License validation failed!"
-                                        };
+                try
+                {
+                    if (validator.ValidateWhen != null && !validator.ValidateWhen(license))
+                        continue;
+
+                    if (!validator.Validate(license))
+                        result = validator.FailureResult
+                                     ?? new GeneralValidationFailure
+                                     {
+                                         Message = "License validation failed!"
+                                     };
+                }
+                catch (Exception e)
+                {
+                    result = new GeneralValidationFailure
+                    {
+                        Message = "License validation failed! " + e.Message
+                    };
+                }
+
+                if (result != null) yield return result;
             }
         }
     }
