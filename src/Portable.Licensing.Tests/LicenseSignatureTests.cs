@@ -70,10 +70,10 @@ namespace Portable.Licensing.Tests
             // validate default values when not set
             Assert.Equal(Guid.Empty, license.Id);
             Assert.Equal(LicenseType.Trial, license.Type);
-            Assert.Equal(0, license.Constraint.Concurrent);
+            Assert.Null(license.AdditionalAttributes);
+            Assert.Null(license.Constraint);
+            Assert.Null(license.Memo);
             Assert.Null(license.ProductFeatures);
-            Assert.Null(license.Memo.LicenseTo);
-            Assert.Equal(ConvertToIso8601(DateTime.MaxValue), license.Constraint.EndDate);
 
             // verify signature
             Assert.True(license.VerifySignature(publicKey));
@@ -84,6 +84,7 @@ namespace Portable.Licensing.Tests
         {
             var licenseId = Guid.NewGuid();
             var customerName = "Max Mustermann";
+            var effectiveData = DateTime.Now;
             var expirationDate = DateTime.Now.AddYears(1);
             var productFeatures = new Dictionary<string, string>
                                       {
@@ -95,9 +96,13 @@ namespace Portable.Licensing.Tests
             var license = License.New()
                                  .WithUniqueIdentifier(licenseId)
                                  .As(LicenseType.Standard)
-                                 .WithMaximumUtilization(10)
+                                 .WithMaximumUtilization(100)
+                                 .WithMaximumConcurrent(10)
+                                 .WithInstallationRestrictions("assembly", "version", "sid", "domain", "ips", "cpu")
+                                 .WithMemo("issuer", "licenseTo", "contractId", "description")
                                  .WithProductFeatures(productFeatures)
                                  .LicensedTo(customerName)
+                                 .EffectiveFrom(effectiveData)
                                  .ExpiresAt(expirationDate)
                                  .CreateAndSignWithPrivateKey(privateKey, passPhrase);
 
@@ -111,11 +116,14 @@ namespace Portable.Licensing.Tests
             // validate default values when not set
             Assert.Equal(licenseId, license.Id);
             Assert.Equal(LicenseType.Standard, license.Type);
+            Assert.NotNull(license.Constraint);
+            Assert.Equal(100, license.Constraint.CAL);
             Assert.Equal(10, license.Constraint.Concurrent);
             Assert.NotNull(license.ProductFeatures);
             Assert.Equal(productFeatures, license.ProductFeatures.GetAll());
-            Assert.NotNull(license.Memo.LicenseTo);
+            Assert.NotNull(license.Memo);
             Assert.Equal(customerName, license.Memo.LicenseTo);
+            Assert.Equal(ConvertToIso8601(effectiveData), license.Constraint.StartDate);
             Assert.Equal(ConvertToIso8601(expirationDate), license.Constraint.EndDate);
 
             // verify signature
@@ -127,6 +135,7 @@ namespace Portable.Licensing.Tests
         {
             var licenseId = Guid.NewGuid();
             var customerName = "Max Mustermann";
+            var effectiveData = DateTime.Now;
             var expirationDate = DateTime.Now.AddYears(1);
             var productFeatures = new Dictionary<string, string>
                                       {
@@ -138,9 +147,13 @@ namespace Portable.Licensing.Tests
             var license = License.New()
                                  .WithUniqueIdentifier(licenseId)
                                  .As(LicenseType.Standard)
-                                 .WithMaximumUtilization(10)
+                                 .WithMaximumUtilization(100)
+                                 .WithMaximumConcurrent(10)
+                                 .WithInstallationRestrictions("assembly", "version", "sid", "domain", "ips", "cpu")
+                                 .WithMemo("issuer", "licenseTo", "contractId", "description")
                                  .WithProductFeatures(productFeatures)
                                  .LicensedTo(customerName)
+                                 .EffectiveFrom(effectiveData)
                                  .ExpiresAt(expirationDate)
                                  .CreateAndSignWithPrivateKey(privateKey, passPhrase);
 
@@ -155,8 +168,8 @@ namespace Portable.Licensing.Tests
             Assert.True(xmlElement.HasElements);
 
             // manipulate xml
-            Assert.NotNull(xmlElement.Element("Quantity"));
-            xmlElement.Element("Quantity").Value = "11"; // now we want to have 11 licenses
+            Assert.NotNull(xmlElement.Element("Constraint").Element("CAL"));
+            xmlElement.Element("Constraint").Element("CAL").Value = "110"; // now we want to have 11 licenses
 
             // load license from manipulated xml
             var hackedLicense = License.Load(xmlElement.ToString());
@@ -164,11 +177,14 @@ namespace Portable.Licensing.Tests
             // validate default values when not set
             Assert.Equal(licenseId, hackedLicense.Id);
             Assert.Equal(LicenseType.Standard, hackedLicense.Type);
-            Assert.Equal(11, hackedLicense.Constraint.Concurrent); // now with 10+1 licenses
+            Assert.NotNull(hackedLicense.Constraint);
+            Assert.Equal(110, hackedLicense.Constraint.CAL); // now with 100+10 licenses
+            Assert.Equal(10, hackedLicense.Constraint.Concurrent);
             Assert.NotNull(hackedLicense.ProductFeatures);
             Assert.Equal(productFeatures, hackedLicense.ProductFeatures.GetAll());
             Assert.NotNull(hackedLicense.Memo);
             Assert.Equal(customerName, hackedLicense.Memo.LicenseTo);
+            Assert.Equal(ConvertToIso8601(effectiveData), hackedLicense.Constraint.StartDate);
             Assert.Equal(ConvertToIso8601(expirationDate), hackedLicense.Constraint.EndDate);
 
             // verify signature

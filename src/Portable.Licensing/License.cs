@@ -26,6 +26,7 @@
 using Portable.Licensing.Security.Cryptography;
 using System;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -176,9 +177,9 @@ namespace Portable.Licensing
         /// Gets the digital signature of this license.
         /// </summary>
         /// <remarks>Use the <see cref="License.Sign"/> method to compute a signature.</remarks>
-        public string Signature
+        public XElement Signature
         {
-            get { return GetTag("Signature"); }
+            get { return xmlData.Elements().FirstOrDefault(x => x.Name.LocalName.Equals("Signature")); }
         }
 
         /// <summary>
@@ -188,7 +189,7 @@ namespace Portable.Licensing
         /// <param name="passPhrase">The pass phrase to decrypt the private key.</param>
         public void Sign(string privateKey, string passPhrase)
         {
-            var signTag = xmlData.Element("Signature") ?? new XElement("Signature");
+            var signTag = xmlData.Elements().FirstOrDefault(x => x.Name.LocalName.Equals("Signature")) ?? new XElement("Signature");
 
             try
             {
@@ -323,7 +324,7 @@ namespace Portable.Licensing
         /// </summary>
         private bool IsSigned
         {
-            get { return (!string.IsNullOrEmpty(Signature)); }
+            get { return Signature != null; }
         }
 
         private void SetTag(string name, string value)

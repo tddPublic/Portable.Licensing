@@ -32,41 +32,64 @@ namespace Portable.Licensing.Tests
 {
     public class LicenseValidationTests
     {
-        public static IEnumerable<object[]> Can_Validate_Valid_Signature_Data()
+        public static IEnumerable<object[]> Valid_Signature_Data()
         {
-#if NET452
             yield return new object[]
             {
-                @"MIIBKjCB4wYHKoZIzj0CATCB1wIBATAsBgcqhkjOPQEBAiEA/////wAAAAEAAAAAAAAAAAAAAAD///////////////8wWwQg/////wAAAAEAAAAAAAAAAAAAAAD///////////////wEIFrGNdiqOpPns+u9VXaYhrxlHQawzFOw9jvOPD4n0mBLAxUAxJ02CIbnBJNqZnjhE50mt4GffpAEIQNrF9Hy4SxCR/i85uVjpEDydwN9gS3rM6D0oTlF2JjClgIhAP////8AAAAA//////////+85vqtpxeehPO5ysL8YyVRAgEBA0IABNVLQ1xKY80BFMgGXec++Vw7n8vvNrq32PaHuBiYMm0PEj2JoB7qSSWhfgcjxNVJsxqJ6gDQVWgl0r7LH4dr0KU=",
-                "MEUCIQCCEDAldOZHHIKvYZRDdzUP4V51y23d6deeK5jIFy27GQIgDz2CndjBh4Vb8tiC3FGQ6fn3GKt8d/P5+luJH0cWv+I=",
-            };
-#endif
-
-            yield return new object[]
-            {
-                "MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQBMjD7TcXgSMbjDDpkOtNe68prK21mPv3c4q8+CSUZKSz9mO8YB0oXmXKCeKORp2v4bDhx6xqNsXCMX07GmgSm7n0A6q71AkjSGDz7iNrW2TSByFql38c6wdtCKneBu4R29u9z7VE/dfGuwDjmo0Fwpo4zaZSrubwCjqkMoU0fr/j7DtQ=",
-                "MIGIAkIBK3XPiLibpWt64FffHsw+ypHl/4v1KUqa6jFjANQ0XKNREW9jJ3EUcspksz3fjeQbqtFackLkV20hKJZijHv95XUCQgHL9XTGEWhn0wHptDF0bW3AxRjpLyHjqlQ1FFw/d/9qKxSjN+gUMs+dHCMFGo7zwlRQpM3fQy6cQVDU72HLjTWzzg==",
+                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwiSsGocNDGQ2HRlQHA6usm/v2cpCcvTntef+ijvou1ToDWGr+ZYre+NBClg0rkmLb9UgXMGXTYqnQg7gGwWjImHsnBcl7Pm7LIf2F2JeHKrI5PZ/U22GHwryrf2S9niwPVngL7Igw+VsQdBVpk8yslLsrLEGtpooGabF3/QSZV7H/mueFlenEz7J7cGtdjywYpu+nB5aBUiD4f4aZckkXQmGFZn5/iHSe+/pWBD63uMroh1IfbGoQXXByIZA02y1LHpWk0LS5KbsSzBJiTOT2DZUF266MxpuOfDqsVzCSXbg/ebuTcQZ7leEDxIoc1mzDq9BOb5LP9A/5WabmPLr7QIDAQAB",
+                @"<License>
+                        <Id>d243f0f9-603b-4960-850c-a0a80119b460</Id>
+                        <Type>Trial</Type>
+                        <Constraint>
+                            <StartDate>2021-07-28T11:33:51.5922863+08:00</StartDate>
+                            <EndDate>2021-09-11T11:33:51.6008235+08:00</EndDate>
+                            <Assembly>assembly</Assembly>
+                            <Version>version</Version>
+                            <MachineSID>sid</MachineSID>
+                            <Domain>domain</Domain>
+                            <IPs>ips</IPs>
+                            <CPU>cpu</CPU>
+                            <CAL>10</CAL>
+                            <Concurrent>5</Concurrent>
+                        </Constraint>
+                        <Memo>
+                            <Issuer>issuer</Issuer>
+                            <LicenseTo>John Doe</LicenseTo>
+                            <ContractId>contractId</ContractId>
+                            <Description>description</Description>
+                        </Memo>
+                        <LicenseAttributes>
+                            <Attribute name=""Sales Module"">yes</Attribute>
+                            <Attribute name=""Purchase Module"">yes</Attribute>
+                            <Attribute name=""Maximum Transactions"">10</Attribute>
+                        </LicenseAttributes>
+                        <ProductFeatures>
+                            <Feature name=""Sales Module"">yes</Feature>
+                            <Feature name=""Purchase Module"">yes</Feature>
+                            <Feature name=""Maximum Transactions"">10000</Feature>
+                        </ProductFeatures>
+                        <Signature xmlns=""http://www.w3.org/2000/09/xmldsig#"">
+                            <SignedInfo>
+                                <CanonicalizationMethod Algorithm=""http://www.w3.org/TR/2001/REC-xml-c14n-20010315"" />
+                                <SignatureMethod Algorithm=""http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"" />
+                                <Reference URI="""">
+                                <Transforms>
+                                    <Transform Algorithm=""http://www.w3.org/2000/09/xmldsig#enveloped-signature"" />
+                                </Transforms>
+                                <DigestMethod Algorithm=""http://www.w3.org/2001/04/xmlenc#sha256"" />
+                                <DigestValue>F+bia5SDOEar7fV75MLGwbefdJPlKQSrPBq8KOBGQeM=</DigestValue>
+                                </Reference>
+                            </SignedInfo>
+                            <SignatureValue>LdqA2hRV7DnfmXRdUrzNrMbww/TZfXNg65HQWN9p9TIG3IPJMCL5tOE9AV5miHMmE7s3a+4diIIk37ubsT4qnXTLYR1Ppj/Fhpvtpa+9BsHNolPInZbZjAwQpGrB6wKShz3+Ta5zBHLorS2pEyhm3pQokhKrQOrFSwQYZFLrQ+6VNCST9PsTIWtvPV06PeFLeJU56x9O8GefbzR9LCvCp49v+r8S+qxvqkfjA+KDKGAXhpCE9AA6Oa0ziQcQfb2kLiZYXf+yiMZ6azRaRhvbHAxd8Th2A2MSSYvvgt3mwzFEGryk1pyfxZPKHwkRtuTE7wd1M27k5tsP1zsBpy0cYA==</SignatureValue>
+                        </Signature>
+                    </License>"
             };
         }
 
         [Theory]
-        [MemberData(nameof(Can_Validate_Valid_Signature_Data))]
-        public void Can_Validate_Valid_Signature(string publicKey, string signature)
+        [MemberData(nameof(Valid_Signature_Data))]
+        public void Can_Validate_Valid_Signature(string publicKey, string licenseData)
         {
-            var licenseData = $@"<License>
-                                  <Id>77d4c193-6088-4c64-9663-ed7398ae8c1a</Id>
-                                  <Type>Trial</Type>
-                                  <Expiration>Sun, 31 Dec 1899 23:00:00 GMT</Expiration>
-                                  <Quantity>1</Quantity>
-                                  <Customer>
-                                    <Name>John Doe</Name>
-                                    <Email>john@doe.tld</Email>
-                                  </Customer>
-                                  <LicenseAttributes />
-                                  <ProductFeatures />
-                                  <Signature>{signature}</Signature>
-                                </License>";
-
             var license = License.Load(licenseData);
 
             var validationResults = license
@@ -78,41 +101,65 @@ namespace Portable.Licensing.Tests
             Assert.Empty(validationResults);
         }
 
-        public static IEnumerable<object[]> Can_Validate_Invalid_Signature_Data()
+        public static IEnumerable<object[]> Invalid_Signature_Data()
         {
-#if NET452
+            // License.Constraint.CAL 10 -> 100
             yield return new object[]
             {
-                @"MIIBKjCB4wYHKoZIzj0CATCB1wIBATAsBgcqhkjOPQEBAiEA/////wAAAAEAAAAAAAAAAAAAAAD///////////////8wWwQg/////wAAAAEAAAAAAAAAAAAAAAD///////////////wEIFrGNdiqOpPns+u9VXaYhrxlHQawzFOw9jvOPD4n0mBLAxUAxJ02CIbnBJNqZnjhE50mt4GffpAEIQNrF9Hy4SxCR/i85uVjpEDydwN9gS3rM6D0oTlF2JjClgIhAP////8AAAAA//////////+85vqtpxeehPO5ysL8YyVRAgEBA0IABNVLQ1xKY80BFMgGXec++Vw7n8vvNrq32PaHuBiYMm0PEj2JoB7qSSWhfgcjxNVJsxqJ6gDQVWgl0r7LH4dr0KU=",
-                "MEUCIQCCEDAldOZHHIKvYZRDdzUP4V51y23d6deeK5jIFy27GQIgDz2CndjBh4Vb8tiC3FGQ6fn3GKt8d/P5+luJH0cWv+I=",
-            };
-#endif
-
-            yield return new object[]
-            {
-                "MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQBMjD7TcXgSMbjDDpkOtNe68prK21mPv3c4q8+CSUZKSz9mO8YB0oXmXKCeKORp2v4bDhx6xqNsXCMX07GmgSm7n0A6q71AkjSGDz7iNrW2TSByFql38c6wdtCKneBu4R29u9z7VE/dfGuwDjmo0Fwpo4zaZSrubwCjqkMoU0fr/j7DtQ=",
-                "MIGIAkIBK3XPiLibpWt64FffHsw+ypHl/4v1KUqa6jFjANQ0XKNREW9jJ3EUcspksz3fjeQbqtFackLkV20hKJZijHv95XUCQgHL9XTGEWhn0wHptDF0bW3AxRjpLyHjqlQ1FFw/d/9qKxSjN+gUMs+dHCMFGo7zwlRQpM3fQy6cQVDU72HLjTWzzg==",
+                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwiSsGocNDGQ2HRlQHA6usm/v2cpCcvTntef+ijvou1ToDWGr+ZYre+NBClg0rkmLb9UgXMGXTYqnQg7gGwWjImHsnBcl7Pm7LIf2F2JeHKrI5PZ/U22GHwryrf2S9niwPVngL7Igw+VsQdBVpk8yslLsrLEGtpooGabF3/QSZV7H/mueFlenEz7J7cGtdjywYpu+nB5aBUiD4f4aZckkXQmGFZn5/iHSe+/pWBD63uMroh1IfbGoQXXByIZA02y1LHpWk0LS5KbsSzBJiTOT2DZUF266MxpuOfDqsVzCSXbg/ebuTcQZ7leEDxIoc1mzDq9BOb5LP9A/5WabmPLr7QIDAQAB",
+                @"<License>
+                        <Id>d243f0f9-603b-4960-850c-a0a80119b460</Id>
+                        <Type>Trial</Type>
+                        <Constraint>
+                            <StartDate>2021-07-28T11:33:51.5922863+08:00</StartDate>
+                            <EndDate>2021-09-11T11:33:51.6008235+08:00</EndDate>
+                            <Assembly>assembly</Assembly>
+                            <Version>version</Version>
+                            <MachineSID>sid</MachineSID>
+                            <Domain>domain</Domain>
+                            <IPs>ips</IPs>
+                            <CPU>cpu</CPU>
+                            <CAL>100</CAL>
+                            <Concurrent>5</Concurrent>
+                        </Constraint>
+                        <Memo>
+                            <Issuer>issuer</Issuer>
+                            <LicenseTo>John Doe</LicenseTo>
+                            <ContractId>contractId</ContractId>
+                            <Description>description</Description>
+                        </Memo>
+                        <LicenseAttributes>
+                            <Attribute name=""Sales Module"">yes</Attribute>
+                            <Attribute name=""Purchase Module"">yes</Attribute>
+                            <Attribute name=""Maximum Transactions"">10</Attribute>
+                        </LicenseAttributes>
+                        <ProductFeatures>
+                            <Feature name=""Sales Module"">yes</Feature>
+                            <Feature name=""Purchase Module"">yes</Feature>
+                            <Feature name=""Maximum Transactions"">10000</Feature>
+                        </ProductFeatures>
+                        <Signature xmlns=""http://www.w3.org/2000/09/xmldsig#"">
+                            <SignedInfo>
+                                <CanonicalizationMethod Algorithm=""http://www.w3.org/TR/2001/REC-xml-c14n-20010315"" />
+                                <SignatureMethod Algorithm=""http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"" />
+                                <Reference URI="""">
+                                <Transforms>
+                                    <Transform Algorithm=""http://www.w3.org/2000/09/xmldsig#enveloped-signature"" />
+                                </Transforms>
+                                <DigestMethod Algorithm=""http://www.w3.org/2001/04/xmlenc#sha256"" />
+                                <DigestValue>F+bia5SDOEar7fV75MLGwbefdJPlKQSrPBq8KOBGQeM=</DigestValue>
+                                </Reference>
+                            </SignedInfo>
+                            <SignatureValue>LdqA2hRV7DnfmXRdUrzNrMbww/TZfXNg65HQWN9p9TIG3IPJMCL5tOE9AV5miHMmE7s3a+4diIIk37ubsT4qnXTLYR1Ppj/Fhpvtpa+9BsHNolPInZbZjAwQpGrB6wKShz3+Ta5zBHLorS2pEyhm3pQokhKrQOrFSwQYZFLrQ+6VNCST9PsTIWtvPV06PeFLeJU56x9O8GefbzR9LCvCp49v+r8S+qxvqkfjA+KDKGAXhpCE9AA6Oa0ziQcQfb2kLiZYXf+yiMZ6azRaRhvbHAxd8Th2A2MSSYvvgt3mwzFEGryk1pyfxZPKHwkRtuTE7wd1M27k5tsP1zsBpy0cYA==</SignatureValue>
+                        </Signature>
+                    </License>"
             };
         }
 
         [Theory]
-        [MemberData(nameof(Can_Validate_Invalid_Signature_Data))]
-        public void Can_Validate_Invalid_Signature(string publicKey, string signature)
+        [MemberData(nameof(Invalid_Signature_Data))]
+        public void Can_Validate_Invalid_Signature(string publicKey, string licenseData)
         {
-            var licenseData = $@"<License>
-                                  <Id>77d4c193-6088-4c64-9663-ed7398ae8c1a</Id>
-                                  <Type>Trial</Type>
-                                  <Expiration>Sun, 31 Dec 1899 23:00:00 GMT</Expiration>
-                                  <Quantity>999</Quantity>
-                                  <Customer>
-                                    <Name>John Doe</Name>
-                                    <Email>john@doe.tld</Email>
-                                  </Customer>
-                                  <LicenseAttributes />
-                                  <ProductFeatures />
-                                  <Signature>{signature}</Signature>
-                                </License>";
-
             var license = License.Load(licenseData);
 
             var validationResults = license
@@ -125,23 +172,10 @@ namespace Portable.Licensing.Tests
             Assert.IsType<InvalidSignatureValidationFailure>(validationResults.FirstOrDefault());
         }
 
-        [Fact]
-        public void Can_Validate_Expired_ExpirationDate()
+        [Theory]
+        [MemberData(nameof(Valid_Signature_Data))]
+        public void Can_Validate_Expired_ExpirationDate(string publicKey, string licenseData)
         {
-            var licenseData = @"<License>
-                                  <Id>77d4c193-6088-4c64-9663-ed7398ae8c1a</Id>
-                                  <Type>Trial</Type>
-                                  <Expiration>Sun, 31 Dec 1899 23:00:00 GMT</Expiration>
-                                  <Quantity>1</Quantity>
-                                  <Customer>
-                                    <Name>John Doe</Name>
-                                    <Email>john@doe.tld</Email>
-                                  </Customer>
-                                  <LicenseAttributes />
-                                  <ProductFeatures />
-                                  <Signature>MEUCIQCCEDAldOZHHIKvYZRDdzUP4V51y23d6deeK5jIFy27GQIgDz2CndjBh4Vb8tiC3FGQ6fn3GKt8d/P5+luJH0cWv+I=</Signature>
-                                </License>";
-
             var license = License.Load(licenseData);
 
             var validationResults = license
@@ -152,50 +186,12 @@ namespace Portable.Licensing.Tests
             Assert.NotNull(validationResults);
             Assert.Single(validationResults);
             Assert.IsType<LicenseExpiredValidationFailure>(validationResults.FirstOrDefault());
-
-        }
-
-        public static IEnumerable<object[]> Can_Validate_CustomAssertion_Data()
-        {
-#if NET452
-            yield return new object[]
-            {
-                @"MIIBKjCB4wYHKoZIzj0CATCB1wIBATAsBgcqhkjOPQEBAiEA/////wAAAAEAAAAAAAAAAAAAAAD///////////////8wWwQg/////wAAAAEAAAAAAAAAAAAAAAD///////////////wEIFrGNdiqOpPns+u9VXaYhrxlHQawzFOw9jvOPD4n0mBLAxUAxJ02CIbnBJNqZnjhE50mt4GffpAEIQNrF9Hy4SxCR/i85uVjpEDydwN9gS3rM6D0oTlF2JjClgIhAP////8AAAAA//////////+85vqtpxeehPO5ysL8YyVRAgEBA0IABNVLQ1xKY80BFMgGXec++Vw7n8vvNrq32PaHuBiYMm0PEj2JoB7qSSWhfgcjxNVJsxqJ6gDQVWgl0r7LH4dr0KU=",
-                "MEUCIQCa6A7Cts5ex4rGHAPxiXpy+2ocZzTDSP7SsddopKUx5QIgHnqv0DjoOpc+K9wALqajxxvmLCRJAywCX5vDAjmWqr8=",
-            };
-#endif
-
-            yield return new object[]
-            {
-                "MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQBMjD7TcXgSMbjDDpkOtNe68prK21mPv3c4q8+CSUZKSz9mO8YB0oXmXKCeKORp2v4bDhx6xqNsXCMX07GmgSm7n0A6q71AkjSGDz7iNrW2TSByFql38c6wdtCKneBu4R29u9z7VE/dfGuwDjmo0Fwpo4zaZSrubwCjqkMoU0fr/j7DtQ=",
-                "MIGIAkIB9aL8HVou9zON76K02jeJCSaPXEPQ1oiBFzRD76kt9qUdZInotxAo1bJW0jODzdmKwxoPQESViwfdEJOQtfOj4PwCQgGMXU37vhPziaXkbGrkCXojYdpZt+s813Qi/ePlEVycyKjFrJVzhrxmIol36DqJWHie/uqzfBDHlQwWnzzrn7++FA==",
-            };
         }
 
         [Theory]
-        [MemberData(nameof(Can_Validate_CustomAssertion_Data))]
-        public void Can_Validate_CustomAssertion(string publicKey, string signature)
+        [MemberData(nameof(Valid_Signature_Data))]
+        public void Can_Validate_CustomAssertion(string publicKey, string licenseData)
         {
-            var licenseData = $@"<License>
-                              <Id>77d4c193-6088-4c64-9663-ed7398ae8c1a</Id>
-                              <Type>Trial</Type>
-                              <Expiration>Thu, 31 Dec 2009 23:00:00 GMT</Expiration>
-                              <Quantity>1</Quantity>
-                              <Customer>
-                                <Name>John Doe</Name>
-                                <Email>john@doe.tld</Email>
-                              </Customer>
-                              <LicenseAttributes>
-                                <Attribute name=""Assembly Signature"">123456789</Attribute>
-                              </LicenseAttributes>
-                              <ProductFeatures>
-                                <Feature name=""Sales Module"">yes</Feature>
-                                <Feature name=""Workflow Module"">yes</Feature>
-                                <Feature name=""Maximum Transactions"">10000</Feature>
-                              </ProductFeatures>
-                              <Signature>{signature}</Signature>
-                            </License>";
-
             var license = License.Load(licenseData);
 
             var validationResults = license
@@ -203,8 +199,8 @@ namespace Portable.Licensing.Tests
                 .AssertThat(lic => lic.ProductFeatures.Contains("Sales Module"),
                             new GeneralValidationFailure { Message = "Sales Module not licensed!" })
                 .And()
-                .AssertThat(lic => lic.AdditionalAttributes.Get("Assembly Signature") == "123456789",
-                            new GeneralValidationFailure { Message = "Assembly Signature does not match!" })
+                .AssertThat(lic => lic.AdditionalAttributes.Get("Maximum Transactions") == "10",
+                            new GeneralValidationFailure { Message = "Maximum Transactions does not match!" })
                 .And()
                 .Signature(publicKey)
                 .AssertValidLicense().ToList();
@@ -218,7 +214,7 @@ namespace Portable.Licensing.Tests
         {
             var publicKey = "1234";
             var licenseData =
-                @"<license expiration='2013-06-30T00:00:00.0000000' type='Trial'><name>John Doe</name></license>";
+                @"<license expiration='2021-07-28T11:33:51.5922863+08:00' type='Trial'><name>John Doe</name></license>";
 
             var license = License.Load(licenseData);
 
@@ -232,7 +228,6 @@ namespace Portable.Licensing.Tests
             Assert.NotNull(validationResults);
             Assert.Single(validationResults);
             Assert.IsType<InvalidSignatureValidationFailure>(validationResults.FirstOrDefault());
-
         }
     }
 }

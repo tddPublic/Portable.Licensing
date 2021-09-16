@@ -64,17 +64,10 @@ namespace Portable.Licensing.Security.Cryptography
             // Find the "Signature" node and create a new XmlNodeList object.
             XmlNodeList nodeList = xmlDocument.GetElementsByTagName("Signature");
 
-            // Throw an exception if no signature was found.
-            if (nodeList.Count <= 0)
+            // Return false if no signature was found or if more than one signature was found.
+            if (nodeList.Count != 1)
             {
-                throw new CryptographicException("Verification failed: No Signature was found in the document.");
-            }
-
-            // This example only supports one signature for the entire XML document.  Throw an exception
-            // if more than one signature was found.
-            if (nodeList.Count >= 2)
-            {
-                throw new CryptographicException("Verification failed: More that one signature was found for the document.");
+                return false;
             }
 
             // Load the first <signature> node.

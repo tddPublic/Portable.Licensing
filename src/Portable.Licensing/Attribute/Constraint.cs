@@ -112,7 +112,7 @@ namespace Portable.Licensing
                 return
                     DateTime.ParseExact(
                         GetTag("EndDate") ??
-                        DateTime.MaxValue.ToString("O", CultureInfo.InvariantCulture)
+                        DateTime.MaxValue.ToUniversalTime().ToString("O", CultureInfo.InvariantCulture)
                         , "O", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
             }
             set { SetTag("EndDate", value.ToString("O", CultureInfo.InvariantCulture)); }
