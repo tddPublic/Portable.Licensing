@@ -190,6 +190,7 @@ namespace Portable.Licensing
         /// <returns>The signed <see cref="License"/>.</returns>
         public License CreateAndSignWithPrivateKey(string privateKey, string passPhrase)
         {
+            license.Memo.CreationDate = DateTime.Now;
             license.Sign(privateKey, passPhrase);
             return license;
         }
