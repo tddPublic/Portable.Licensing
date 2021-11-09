@@ -136,14 +136,22 @@ namespace Portable.Licensing
         {
             var element = xmlData.Element(name);
 
-            if (element == null)
+            if (string.IsNullOrEmpty(value))
             {
-                element = new XElement(name);
-                xmlData.Add(element);
+                if (element != null)
+                    element.Remove();
             }
+            else
+            {
+                if (element == null)
+                {
+                    element = new XElement(name);
+                    xmlData.Add(element);
+                }
 
-            if (value != null)
-                element.Value = value;
+                if (value != null)
+                    element.Value = value;
+            }
         }
 
         protected virtual void SetChildTag(string name, string value)
