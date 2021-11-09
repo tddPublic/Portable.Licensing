@@ -72,7 +72,8 @@ namespace Portable.Licensing.Tests
             Assert.Equal(LicenseType.Trial, license.Type);
             Assert.Null(license.AdditionalAttributes);
             Assert.Null(license.Constraint);
-            Assert.Null(license.Memo);
+            Assert.NotNull(license.Memo);
+            Assert.Equal(DateTime.Now.ToShortDateString(), license.Memo.CreationDate.ToShortDateString());
             Assert.Null(license.ProductFeatures);
 
             // verify signature
@@ -98,7 +99,7 @@ namespace Portable.Licensing.Tests
                                  .As(LicenseType.Standard)
                                  .WithMaximumUtilization(100)
                                  .WithMaximumConcurrent(10)
-                                 .WithInstallationRestrictions("assembly", "version", "sid", "domain", "ips", "cpu")
+                                 .WithInstallationRestrictions(null, "", "sid", "domain", "ips", "cpu")
                                  .WithMemo("issuer", "licenseTo", "contractId", "description")
                                  .WithProductFeatures(productFeatures)
                                  .LicensedTo(customerName)
@@ -125,6 +126,9 @@ namespace Portable.Licensing.Tests
             Assert.Equal(customerName, license.Memo.LicenseTo);
             Assert.Equal(ConvertToIso8601(effectiveData), license.Constraint.StartDate);
             Assert.Equal(ConvertToIso8601(expirationDate), license.Constraint.EndDate);
+            Assert.Null(license.Constraint.Assembly);
+            Assert.Null(license.Constraint.Version);
+            Assert.NotNull(license.Constraint.MachineSID);
 
             // verify signature
             Assert.True(license.VerifySignature(publicKey));
