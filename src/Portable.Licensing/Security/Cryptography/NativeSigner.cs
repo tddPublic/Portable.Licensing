@@ -17,7 +17,15 @@ namespace Portable.Licensing.Security.Cryptography
         protected override RSA GetPublicSigningKey(string publicKey)
         {
             RSA Key = RSA.Create();
-            Key.ImportSubjectPublicKeyInfo(Convert.FromBase64String(publicKey), out int _);
+
+            try
+            {
+                Key.ImportSubjectPublicKeyInfo(Convert.FromBase64String(publicKey), out int _);
+            }
+            catch
+            {
+                Key.FromXmlString(publicKey);
+            }
 
             return Key;
         }

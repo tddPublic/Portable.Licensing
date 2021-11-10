@@ -17,9 +17,18 @@ namespace Portable.Licensing.Security.Cryptography
 
         protected override RSA GetPublicSigningKey(string publicKey)
         {
-            var pubKey = BouncyKeyFactory.FromPublicKeyString(publicKey);
+            RSA Key = RSA.Create();
 
-            var Key = DotNetUtilities.ToRSA(pubKey);
+            try
+            {
+                var pubKey = BouncyKeyFactory.FromPublicKeyString(publicKey);
+
+                Key = DotNetUtilities.ToRSA(pubKey);
+            }
+            catch
+            {
+                Key.FromXmlString(publicKey);
+            }
 
             return Key;
         }
