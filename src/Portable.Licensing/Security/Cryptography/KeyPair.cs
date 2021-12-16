@@ -14,5 +14,11 @@
         /// </summary>
         /// <returns>The public key.</returns>
         public abstract string ToPublicKeyString();
+
+        /// <summary>
+        /// Gets the XML string containing the public key.
+        /// </summary>
+        /// <returns>The public key.</returns>
+        public abstract string ToPublicKeyXmlString();
     }
 }

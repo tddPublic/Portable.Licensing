@@ -81,6 +81,15 @@ namespace Portable.Licensing.Security.Cryptography
         }
 
         /// <summary>
+        /// Gets the XML string containing the public key.
+        /// </summary>
+        /// <returns>The public key.</returns>
+        public static string ToPublicKeyXmlString(AsymmetricKeyParameter key)
+        {
+            return DotNetUtilities.ToRSA(key as RsaKeyParameters).ToXmlString(false);
+        }
+
+        /// <summary>
         /// Decoded the public key from DER encoding.
         /// </summary>
         /// <param name="publicKey">The encoded public key.</param>

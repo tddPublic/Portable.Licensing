@@ -33,6 +33,15 @@ namespace Portable.Licensing.Security.Cryptography
             var data = this.algorithm.ExportSubjectPublicKeyInfo();
             return Convert.ToBase64String(data);
         }
+
+        /// <summary>
+        /// Gets the XML string containing the public key.
+        /// </summary>
+        /// <returns>The public key.</returns>
+        public override string ToPublicKeyXmlString()
+        {
+            return this.algorithm.ToXmlString(false);
+        }
     }
 }
 #endif

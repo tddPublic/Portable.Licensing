@@ -37,6 +37,7 @@ namespace Portable.Licensing.Tests
         private string passPhrase;
         private string privateKey;
         private string publicKey;
+        private string xmlPublicKey;
 
         public LicenseSignatureTests()
         {
@@ -45,6 +46,7 @@ namespace Portable.Licensing.Tests
             var keyPair = keyGenerator.GenerateKeyPair();
             privateKey = keyPair.ToEncryptedPrivateKeyString(passPhrase);
             publicKey = keyPair.ToPublicKeyString();
+            xmlPublicKey = keyPair.ToPublicKeyXmlString();
         }
 
         private static DateTime ConvertToIso8601(DateTime dateTime)
@@ -78,6 +80,7 @@ namespace Portable.Licensing.Tests
 
             // verify signature
             Assert.True(license.VerifySignature(publicKey));
+            Assert.True(license.VerifySignature(xmlPublicKey));
         }
 
         [Fact]
@@ -132,6 +135,7 @@ namespace Portable.Licensing.Tests
 
             // verify signature
             Assert.True(license.VerifySignature(publicKey));
+            Assert.True(license.VerifySignature(xmlPublicKey));
         }
 
         [Fact]
@@ -166,6 +170,7 @@ namespace Portable.Licensing.Tests
 
             // verify signature
             Assert.True(license.VerifySignature(publicKey));
+            Assert.True(license.VerifySignature(xmlPublicKey));
 
             // validate xml
             var xmlElement = XElement.Parse(license.ToString(), LoadOptions.None);
@@ -193,6 +198,7 @@ namespace Portable.Licensing.Tests
 
             // verify signature
             Assert.False(hackedLicense.VerifySignature(publicKey));
+            Assert.False(hackedLicense.VerifySignature(xmlPublicKey));
         }
     }
 }

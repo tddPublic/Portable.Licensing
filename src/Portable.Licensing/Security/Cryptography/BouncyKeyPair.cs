@@ -63,6 +63,15 @@ namespace Portable.Licensing.Security.Cryptography
         {
             return BouncyKeyFactory.ToPublicKeyString(keyPair.Public);
         }
+
+        /// <summary>
+        /// Gets the XML string containing the public key.
+        /// </summary>
+        /// <returns>The public key.</returns>
+        public override string ToPublicKeyXmlString()
+        {
+            return BouncyKeyFactory.ToPublicKeyXmlString(keyPair.Public);
+        }
     }
 }
 #endif
