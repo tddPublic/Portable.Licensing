@@ -60,6 +60,15 @@ namespace Portable.Licensing
         }
 
         /// <summary>
+        /// Gets or sets the MACAddresses of this <see cref="Constraint"/>.
+        /// </summary>
+        public string MACAddresses
+        {
+            get { return GetTag("MACAddresses"); }
+            set { SetTag("MACAddresses", value); }
+        }
+
+        /// <summary>
         /// Gets or sets the CAL of this <see cref="Constraint"/>.
         /// </summary>
         public int CAL
@@ -75,6 +84,15 @@ namespace Portable.Licensing
         {
             get { return GetTag("CPU"); }
             set { SetTag("CPU", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the ProcessorId of this <see cref="Constraint"/>.
+        /// </summary>
+        public string ProcessorId
+        {
+            get { return GetTag("ProcessorId"); }
+            set { SetTag("ProcessorId", value); }
         }
 
         /// <summary>

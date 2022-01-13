@@ -106,7 +106,7 @@ namespace Portable.Licensing
             return this;
         }
 
-        public ILicenseBuilder WithInstallationRestrictions(string assembly, string version, string machineSID, string domain, string ips, string cpu)
+        public ILicenseBuilder WithInstallationRestrictions(string assembly, string version, string machineSID, string domain, string ips, string cpu, string macAddresses, string processorId)
         {
             license.Constraint.Assembly = assembly;
             license.Constraint.Version = version;
@@ -114,6 +114,8 @@ namespace Portable.Licensing
             license.Constraint.Domain = domain;
             license.Constraint.IPs = ips;
             license.Constraint.CPU = cpu;
+            license.Constraint.MACAddresses = macAddresses;
+            license.Constraint.ProcessorId = processorId;
             return this;
         }
 

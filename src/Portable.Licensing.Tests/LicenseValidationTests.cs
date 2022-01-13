@@ -36,53 +36,51 @@ namespace Portable.Licensing.Tests
         {
             yield return new object[]
             {
-                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwiSsGocNDGQ2HRlQHA6usm/v2cpCcvTntef+ijvou1ToDWGr+ZYre+NBClg0rkmLb9UgXMGXTYqnQg7gGwWjImHsnBcl7Pm7LIf2F2JeHKrI5PZ/U22GHwryrf2S9niwPVngL7Igw+VsQdBVpk8yslLsrLEGtpooGabF3/QSZV7H/mueFlenEz7J7cGtdjywYpu+nB5aBUiD4f4aZckkXQmGFZn5/iHSe+/pWBD63uMroh1IfbGoQXXByIZA02y1LHpWk0LS5KbsSzBJiTOT2DZUF266MxpuOfDqsVzCSXbg/ebuTcQZ7leEDxIoc1mzDq9BOb5LP9A/5WabmPLr7QIDAQAB",
+                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAotPN5T+gISGJDNR8xSVCBiR7exbVPl4z9LrYhhVjV5z7fFc464gryHCmc8gnL4G2z5qXRYnn0AVIiEZZ0CKm9a28CfdvpBSgBnuIJN44CNSetUDAmdd1lMLe7PWhbyF5Sj0xL6NOA+7803/8/IKm7Uo10rwAP8WX1Y4zRGFLc9XsrLgz7GJPOuLr4sDAUzzSsGgBM2l6nrhUvFjmopI51QQoMYAj4wiP0Z75ZmsrC3FLceM2a+y9fUV8vEuKmFwp0jC9ox1V0ynkHXaPxIISa90Xo85VR+1Pmar0BWJr0pOJVEDICTLVVPBU/FZWGy9HohkFPJfhq4nS/IEK/NUSYQIDAQAB",
                 @"<License>
-                        <Id>d243f0f9-603b-4960-850c-a0a80119b460</Id>
-                        <Type>Trial</Type>
-                        <Constraint>
-                            <StartDate>2021-07-28T11:33:51.5922863+08:00</StartDate>
-                            <EndDate>2021-09-11T11:33:51.6008235+08:00</EndDate>
-                            <Assembly>assembly</Assembly>
-                            <Version>version</Version>
-                            <MachineSID>sid</MachineSID>
-                            <Domain>domain</Domain>
-                            <IPs>ips</IPs>
-                            <CPU>cpu</CPU>
-                            <CAL>10</CAL>
-                            <Concurrent>5</Concurrent>
-                        </Constraint>
-                        <Memo>
-                            <Issuer>issuer</Issuer>
-                            <LicenseTo>John Doe</LicenseTo>
-                            <ContractId>contractId</ContractId>
-                            <Description>description</Description>
-                        </Memo>
-                        <LicenseAttributes>
-                            <Attribute name=""Sales Module"">yes</Attribute>
-                            <Attribute name=""Purchase Module"">yes</Attribute>
-                            <Attribute name=""Maximum Transactions"">10</Attribute>
-                        </LicenseAttributes>
-                        <ProductFeatures>
-                            <Feature name=""Sales Module"">yes</Feature>
-                            <Feature name=""Purchase Module"">yes</Feature>
-                            <Feature name=""Maximum Transactions"">10000</Feature>
-                        </ProductFeatures>
-                        <Signature xmlns=""http://www.w3.org/2000/09/xmldsig#"">
-                            <SignedInfo>
-                                <CanonicalizationMethod Algorithm=""http://www.w3.org/TR/2001/REC-xml-c14n-20010315"" />
-                                <SignatureMethod Algorithm=""http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"" />
-                                <Reference URI="""">
+                    <Id>81f6a87c-a866-4450-9898-404be3229e7d</Id>
+                    <Type>Standard</Type>
+                    <Constraint>
+                        <CAL>100</CAL>
+                        <Concurrent>10</Concurrent>
+                        <MachineSID>sid</MachineSID>
+                        <Domain>domain</Domain>
+                        <IPs>ips</IPs>
+                        <CPU>cpu</CPU>
+                        <MACAddresses>mac</MACAddresses>
+                        <ProcessorId>pid</ProcessorId>
+                        <StartDate>2020-01-13T15:05:07.7840458+08:00</StartDate>
+                        <EndDate>2021-01-13T15:05:07.7843927+08:00</EndDate>
+                    </Constraint>
+                    <Memo>
+                        <Issuer>issuer</Issuer>
+                        <LicenseTo>Max Mustermann</LicenseTo>
+                        <ContractId>contractId</ContractId>
+                        <Description>description</Description>
+                        <CreationDate>2022-01-13T15:05:07.7940861+08:00</CreationDate>
+                    </Memo>
+                    <ProductFeatures>
+                        <Feature name=""Sales Module"">yes</Feature>
+                        <Feature name=""Purchase Module"">yes</Feature>
+                    </ProductFeatures>
+                    <LicenseAttributes>
+                        <Attribute name=""Maximum Transactions"">10000</Attribute>
+                    </LicenseAttributes>
+                    <Signature xmlns=""http://www.w3.org/2000/09/xmldsig#"">
+                        <SignedInfo>
+                            <CanonicalizationMethod Algorithm=""http://www.w3.org/TR/2001/REC-xml-c14n-20010315"" />
+                            <SignatureMethod Algorithm=""http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"" />
+                            <Reference URI="""">
                                 <Transforms>
                                     <Transform Algorithm=""http://www.w3.org/2000/09/xmldsig#enveloped-signature"" />
                                 </Transforms>
                                 <DigestMethod Algorithm=""http://www.w3.org/2001/04/xmlenc#sha256"" />
-                                <DigestValue>F+bia5SDOEar7fV75MLGwbefdJPlKQSrPBq8KOBGQeM=</DigestValue>
-                                </Reference>
-                            </SignedInfo>
-                            <SignatureValue>LdqA2hRV7DnfmXRdUrzNrMbww/TZfXNg65HQWN9p9TIG3IPJMCL5tOE9AV5miHMmE7s3a+4diIIk37ubsT4qnXTLYR1Ppj/Fhpvtpa+9BsHNolPInZbZjAwQpGrB6wKShz3+Ta5zBHLorS2pEyhm3pQokhKrQOrFSwQYZFLrQ+6VNCST9PsTIWtvPV06PeFLeJU56x9O8GefbzR9LCvCp49v+r8S+qxvqkfjA+KDKGAXhpCE9AA6Oa0ziQcQfb2kLiZYXf+yiMZ6azRaRhvbHAxd8Th2A2MSSYvvgt3mwzFEGryk1pyfxZPKHwkRtuTE7wd1M27k5tsP1zsBpy0cYA==</SignatureValue>
-                        </Signature>
-                    </License>"
+                                <DigestValue>nG7aQkWBVFVNJqXkfwTv/Tql8QgRwmn8CEEMZKY/cvY=</DigestValue>
+                            </Reference>
+                        </SignedInfo>
+                        <SignatureValue>ZASyExy2pzdLWIVorLj/gRmyhpoZSMxKVpmf5ofv9Ztpyj2KnLVeGy1DCSkAOfNlVgg4y8kYdkSJeRmTc5ah6ldAAfMF9XXzRRU7ed/BFosIAwppaaq2Kj4JqhEk94UFipp0tulOdjo+WHzHK4xE+5gRxCRviThsrrfWzTtT3RMkwGE64SpC2K83xiFhd2Y81ZWPtIdkrAR/WJvvtx4awmisgDx8Lu/Ufomu0il2Vo+xi5zqmeVH/t66aRA4fYra5c6BeM/HpH9kvvjpMdTWPa5SBnLoH3Ez3nBGg6j6VoSUZCsrEHS/h0BmqpwSGzDbC5XleRdmczy1wkh6CCB74A==</SignatureValue>
+                    </Signature>
+                </License>"
             };
         }
 
@@ -103,56 +101,54 @@ namespace Portable.Licensing.Tests
 
         public static IEnumerable<object[]> Invalid_Signature_Data()
         {
-            // License.Constraint.CAL 10 -> 100
+            // License.Constraint.CAL 100 -> 1000
             yield return new object[]
             {
-                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwiSsGocNDGQ2HRlQHA6usm/v2cpCcvTntef+ijvou1ToDWGr+ZYre+NBClg0rkmLb9UgXMGXTYqnQg7gGwWjImHsnBcl7Pm7LIf2F2JeHKrI5PZ/U22GHwryrf2S9niwPVngL7Igw+VsQdBVpk8yslLsrLEGtpooGabF3/QSZV7H/mueFlenEz7J7cGtdjywYpu+nB5aBUiD4f4aZckkXQmGFZn5/iHSe+/pWBD63uMroh1IfbGoQXXByIZA02y1LHpWk0LS5KbsSzBJiTOT2DZUF266MxpuOfDqsVzCSXbg/ebuTcQZ7leEDxIoc1mzDq9BOb5LP9A/5WabmPLr7QIDAQAB",
+                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAotPN5T+gISGJDNR8xSVCBiR7exbVPl4z9LrYhhVjV5z7fFc464gryHCmc8gnL4G2z5qXRYnn0AVIiEZZ0CKm9a28CfdvpBSgBnuIJN44CNSetUDAmdd1lMLe7PWhbyF5Sj0xL6NOA+7803/8/IKm7Uo10rwAP8WX1Y4zRGFLc9XsrLgz7GJPOuLr4sDAUzzSsGgBM2l6nrhUvFjmopI51QQoMYAj4wiP0Z75ZmsrC3FLceM2a+y9fUV8vEuKmFwp0jC9ox1V0ynkHXaPxIISa90Xo85VR+1Pmar0BWJr0pOJVEDICTLVVPBU/FZWGy9HohkFPJfhq4nS/IEK/NUSYQIDAQAB",
                 @"<License>
-                        <Id>d243f0f9-603b-4960-850c-a0a80119b460</Id>
-                        <Type>Trial</Type>
-                        <Constraint>
-                            <StartDate>2021-07-28T11:33:51.5922863+08:00</StartDate>
-                            <EndDate>2021-09-11T11:33:51.6008235+08:00</EndDate>
-                            <Assembly>assembly</Assembly>
-                            <Version>version</Version>
-                            <MachineSID>sid</MachineSID>
-                            <Domain>domain</Domain>
-                            <IPs>ips</IPs>
-                            <CPU>cpu</CPU>
-                            <CAL>100</CAL>
-                            <Concurrent>5</Concurrent>
-                        </Constraint>
-                        <Memo>
-                            <Issuer>issuer</Issuer>
-                            <LicenseTo>John Doe</LicenseTo>
-                            <ContractId>contractId</ContractId>
-                            <Description>description</Description>
-                        </Memo>
-                        <LicenseAttributes>
-                            <Attribute name=""Sales Module"">yes</Attribute>
-                            <Attribute name=""Purchase Module"">yes</Attribute>
-                            <Attribute name=""Maximum Transactions"">10</Attribute>
-                        </LicenseAttributes>
-                        <ProductFeatures>
-                            <Feature name=""Sales Module"">yes</Feature>
-                            <Feature name=""Purchase Module"">yes</Feature>
-                            <Feature name=""Maximum Transactions"">10000</Feature>
-                        </ProductFeatures>
-                        <Signature xmlns=""http://www.w3.org/2000/09/xmldsig#"">
-                            <SignedInfo>
-                                <CanonicalizationMethod Algorithm=""http://www.w3.org/TR/2001/REC-xml-c14n-20010315"" />
-                                <SignatureMethod Algorithm=""http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"" />
-                                <Reference URI="""">
+                    <Id>81f6a87c-a866-4450-9898-404be3229e7d</Id>
+                    <Type>Standard</Type>
+                    <Constraint>
+                        <CAL>1000</CAL>
+                        <Concurrent>10</Concurrent>
+                        <MachineSID>sid</MachineSID>
+                        <Domain>domain</Domain>
+                        <IPs>ips</IPs>
+                        <CPU>cpu</CPU>
+                        <MACAddresses>mac</MACAddresses>
+                        <ProcessorId>pid</ProcessorId>
+                        <StartDate>2020-01-13T15:05:07.7840458+08:00</StartDate>
+                        <EndDate>2021-01-13T15:05:07.7843927+08:00</EndDate>
+                    </Constraint>
+                    <Memo>
+                        <Issuer>issuer</Issuer>
+                        <LicenseTo>Max Mustermann</LicenseTo>
+                        <ContractId>contractId</ContractId>
+                        <Description>description</Description>
+                        <CreationDate>2022-01-13T15:05:07.7940861+08:00</CreationDate>
+                    </Memo>
+                    <ProductFeatures>
+                        <Feature name=""Sales Module"">yes</Feature>
+                        <Feature name=""Purchase Module"">yes</Feature>
+                    </ProductFeatures>
+                    <LicenseAttributes>
+                        <Attribute name=""Maximum Transactions"">10000</Attribute>
+                    </LicenseAttributes>
+                    <Signature xmlns=""http://www.w3.org/2000/09/xmldsig#"">
+                        <SignedInfo>
+                            <CanonicalizationMethod Algorithm=""http://www.w3.org/TR/2001/REC-xml-c14n-20010315"" />
+                            <SignatureMethod Algorithm=""http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"" />
+                            <Reference URI="""">
                                 <Transforms>
                                     <Transform Algorithm=""http://www.w3.org/2000/09/xmldsig#enveloped-signature"" />
                                 </Transforms>
                                 <DigestMethod Algorithm=""http://www.w3.org/2001/04/xmlenc#sha256"" />
-                                <DigestValue>F+bia5SDOEar7fV75MLGwbefdJPlKQSrPBq8KOBGQeM=</DigestValue>
-                                </Reference>
-                            </SignedInfo>
-                            <SignatureValue>LdqA2hRV7DnfmXRdUrzNrMbww/TZfXNg65HQWN9p9TIG3IPJMCL5tOE9AV5miHMmE7s3a+4diIIk37ubsT4qnXTLYR1Ppj/Fhpvtpa+9BsHNolPInZbZjAwQpGrB6wKShz3+Ta5zBHLorS2pEyhm3pQokhKrQOrFSwQYZFLrQ+6VNCST9PsTIWtvPV06PeFLeJU56x9O8GefbzR9LCvCp49v+r8S+qxvqkfjA+KDKGAXhpCE9AA6Oa0ziQcQfb2kLiZYXf+yiMZ6azRaRhvbHAxd8Th2A2MSSYvvgt3mwzFEGryk1pyfxZPKHwkRtuTE7wd1M27k5tsP1zsBpy0cYA==</SignatureValue>
-                        </Signature>
-                    </License>"
+                                <DigestValue>nG7aQkWBVFVNJqXkfwTv/Tql8QgRwmn8CEEMZKY/cvY=</DigestValue>
+                            </Reference>
+                        </SignedInfo>
+                        <SignatureValue>ZASyExy2pzdLWIVorLj/gRmyhpoZSMxKVpmf5ofv9Ztpyj2KnLVeGy1DCSkAOfNlVgg4y8kYdkSJeRmTc5ah6ldAAfMF9XXzRRU7ed/BFosIAwppaaq2Kj4JqhEk94UFipp0tulOdjo+WHzHK4xE+5gRxCRviThsrrfWzTtT3RMkwGE64SpC2K83xiFhd2Y81ZWPtIdkrAR/WJvvtx4awmisgDx8Lu/Ufomu0il2Vo+xi5zqmeVH/t66aRA4fYra5c6BeM/HpH9kvvjpMdTWPa5SBnLoH3Ez3nBGg6j6VoSUZCsrEHS/h0BmqpwSGzDbC5XleRdmczy1wkh6CCB74A==</SignatureValue>
+                    </Signature>
+                </License>"
             };
         }
 
@@ -190,6 +186,28 @@ namespace Portable.Licensing.Tests
 
         [Theory]
         [MemberData(nameof(Valid_Signature_Data))]
+        public void Can_Validate_Incompatible_Constraint(string publicKey, string licenseData)
+        {
+            var license = License.Load(licenseData);
+
+            var validationResults = license
+                .Validate()
+                .ProcessorId()
+                .And()
+                .Domain()
+                .And()
+                .MACAddresses()
+                .And()
+                .MachineSID()
+                .AssertValidLicense().ToList();
+
+            Assert.NotNull(validationResults);
+            Assert.Equal(4, validationResults.Count);
+            Assert.IsType<IncompatibleConstraintValidationFailure>(validationResults.FirstOrDefault());
+        }
+
+        [Theory]
+        [MemberData(nameof(Valid_Signature_Data))]
         public void Can_Validate_CustomAssertion(string publicKey, string licenseData)
         {
             var license = License.Load(licenseData);
@@ -199,7 +217,7 @@ namespace Portable.Licensing.Tests
                 .AssertThat(lic => lic.ProductFeatures.Contains("Sales Module"),
                             new GeneralValidationFailure { Message = "Sales Module not licensed!" })
                 .And()
-                .AssertThat(lic => lic.AdditionalAttributes.Get("Maximum Transactions") == "10",
+                .AssertThat(lic => lic.AdditionalAttributes.Get("Maximum Transactions") == "10000",
                             new GeneralValidationFailure { Message = "Maximum Transactions does not match!" })
                 .And()
                 .Signature(publicKey)

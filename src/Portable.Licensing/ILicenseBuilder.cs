@@ -71,7 +71,7 @@ namespace Portable.Licensing
 
         ILicenseBuilder WithMaximumConcurrent(int concurrent);
 
-        ILicenseBuilder WithInstallationRestrictions(string assembly, string version, string machineSID, string domain, string ips, string cpu);
+        ILicenseBuilder WithInstallationRestrictions(string assembly, string version, string machineSID, string domain, string ips, string cpu, string macAddresses, string processorId);
 
         ILicenseBuilder WithMemo(string issuer, string licenseTo, string contractId, string description);
 

@@ -1,4 +1,4 @@
-﻿﻿//
+﻿//
 // Copyright © 2012 - 2013 Nauck IT KG     http://www.nauck-it.de
 //
 // Author:
@@ -23,6 +23,8 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using DeviceId;
+using GSS.DeviceId.Extensions;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -89,19 +91,19 @@ namespace Portable.Licensing.Validation
             var validator = validationChainBuilder.StartValidatorChain();
             validator.Validate = license => assemblies.All(
                     asm =>
-                    asm.GetCustomAttributes(typeof (AssemblyBuildDateAttribute))
+                    asm.GetCustomAttributes(typeof(AssemblyBuildDateAttribute))
                        .Cast<AssemblyBuildDateAttribute>()
                        .All(a => a.BuildDate < license.Constraint.EndDate));
 
             validator.FailureResult = new LicenseExpiredValidationFailure()
-                                          {
-                                              Message = "Licensing for this product has expired!",
-                                              HowToResolve = @"Your license is expired. Please contact your distributor/vendor to renew the license."
-                                          };
+            {
+                Message = "Licensing for this product has expired!",
+                HowToResolve = @"Your license is expired. Please contact your distributor/vendor to renew the license."
+            };
 
             return validationChainBuilder;
         }
-   
+
         /// <summary>
         /// Allows you to specify a custom assertion that validates the <see cref="License"/>.
         /// </summary>
@@ -133,10 +135,123 @@ namespace Portable.Licensing.Validation
             validator.Validate = license => license.VerifySignature(publicKey);
 
             validator.FailureResult = new InvalidSignatureValidationFailure()
-                                          {
-                                              Message = "License signature validation error!",
-                                              HowToResolve = @"The license signature and data does not match. This usually happens when a license file is corrupted or has been altered."
-                                          };
+            {
+                Message = "License signature validation error!",
+                HowToResolve = @"The license signature and data does not match. This usually happens when a license file is corrupted or has been altered."
+            };
+
+            return validationChainBuilder;
+        }
+
+        /// <summary>
+        /// Validates the <see cref="License.Constraint.ProcessorId"> with DeviceId package.
+        /// </summary>
+        /// <param name="validationChain">The current <see cref="IStartValidationChain"/>.</param>
+        /// <returns>An instance of <see cref="IStartValidationChain"/>.</returns>
+        public static IValidationChain ProcessorId(this IStartValidationChain validationChain)
+        {
+            var validationChainBuilder = (validationChain as ValidationChainBuilder);
+            var validator = validationChainBuilder.StartValidatorChain();
+            validator.Validate = license =>
+            {
+                var Components = new DeviceIdBuilder()
+                    .OnWindows(windows => windows
+                        .AddProcessorId())
+                    .Components;
+
+                return license.Constraint.ProcessorId.Equals(Components["ProcessorId"].GetValue());
+            };
+
+            validator.FailureResult = new IncompatibleConstraintValidationFailure()
+            {
+                Message = "License constraint validation error!",
+                HowToResolve = @"The license constraint does not match. Please check the Constraint.ProcessorId."
+            };
+
+            return validationChainBuilder;
+        }
+
+        /// <summary>
+        /// Validates the <see cref="License.Constraint.Domain"> with DeviceId package.
+        /// </summary>
+        /// <param name="validationChain">The current <see cref="IStartValidationChain"/>.</param>
+        /// <returns>An instance of <see cref="IStartValidationChain"/>.</returns>
+        public static IValidationChain Domain(this IStartValidationChain validationChain)
+        {
+            var validationChainBuilder = (validationChain as ValidationChainBuilder);
+            var validator = validationChainBuilder.StartValidatorChain();
+            validator.Validate = license =>
+            {
+                var Components = new DeviceIdBuilder()
+                    .AddDomainName()
+                    .Components;
+                
+                return license.Constraint.Domain.Equals(Components["DomainName"].GetValue());
+            };
+
+            validator.FailureResult = new IncompatibleConstraintValidationFailure()
+            {
+                Message = "License constraint validation error!",
+                HowToResolve = @"The license constraint does not match. Please check the Constraint.Domain."
+            };
+
+            return validationChainBuilder;
+        }
+
+        /// <summary>
+        /// Validates the <see cref="License.Constraint.MACAddresses"> with DeviceId package.
+        /// </summary>
+        /// <param name="validationChain">The current <see cref="IStartValidationChain"/>.</param>
+        /// <returns>An instance of <see cref="IStartValidationChain"/>.</returns>
+        public static IValidationChain MACAddresses(this IStartValidationChain validationChain)
+        {
+            var validationChainBuilder = (validationChain as ValidationChainBuilder);
+            var validator = validationChainBuilder.StartValidatorChain();
+            validator.Validate = license =>
+            {
+                var Components = new DeviceIdBuilder()
+                    .AddMacAddress()
+                    .Components;
+
+                return license.Constraint.MACAddresses.Split(',')
+                                                            .Where(x => !string.IsNullOrEmpty(x))
+                                                            .Intersect(Components["MACAddress"].GetValue().Split(','))
+                                                            .Count() > 0;
+            };
+
+            validator.FailureResult = new IncompatibleConstraintValidationFailure()
+            {
+                Message = "License constraint validation error!",
+                HowToResolve = @"The license constraint does not match. Please check the MACAddresses."
+            };
+
+            return validationChainBuilder;
+        }
+
+        /// <summary>
+        /// Validates the <see cref="License.Constraint.MachineSID"> with DeviceId package.
+        /// </summary>
+        /// <param name="validationChain">The current <see cref="IStartValidationChain"/>.</param>
+        /// <returns>An instance of <see cref="IStartValidationChain"/>.</returns>
+        public static IValidationChain MachineSID(this IStartValidationChain validationChain)
+        {
+            var validationChainBuilder = (validationChain as ValidationChainBuilder);
+            var validator = validationChainBuilder.StartValidatorChain();
+            validator.Validate = license =>
+            {
+                var Components = new DeviceIdBuilder()
+                    .OnWindows(windows => windows
+                        .AddMachineGuid())
+                    .Components;
+
+                return license.Constraint.MachineSID.Equals(Components["MachineGuid"].GetValue());
+            };
+
+            validator.FailureResult = new IncompatibleConstraintValidationFailure()
+            {
+                Message = "License constraint validation error!",
+                HowToResolve = @"The license constraint does not match. Please check the Constraint.MachineSID."
+            };
 
             return validationChainBuilder;
         }

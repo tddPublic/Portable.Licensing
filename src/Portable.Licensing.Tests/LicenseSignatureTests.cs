@@ -88,12 +88,15 @@ namespace Portable.Licensing.Tests
         {
             var licenseId = Guid.NewGuid();
             var customerName = "Max Mustermann";
-            var effectiveData = DateTime.Now;
-            var expirationDate = DateTime.Now.AddYears(1);
+            var effectiveData = DateTime.Now.AddYears(-2);
+            var expirationDate = DateTime.Now.AddYears(-1);
             var productFeatures = new Dictionary<string, string>
                                       {
                                           {"Sales Module", "yes"},
-                                          {"Purchase Module", "yes"},
+                                          {"Purchase Module", "yes"}
+                                      };
+            var additionalAttributes = new Dictionary<string, string>
+                                      {
                                           {"Maximum Transactions", "10000"}
                                       };
 
@@ -102,9 +105,10 @@ namespace Portable.Licensing.Tests
                                  .As(LicenseType.Standard)
                                  .WithMaximumUtilization(100)
                                  .WithMaximumConcurrent(10)
-                                 .WithInstallationRestrictions(null, "", "sid", "domain", "ips", "cpu")
+                                 .WithInstallationRestrictions(null, "", "sid", "domain", "ips", "cpu", "mac", "pid")
                                  .WithMemo("issuer", "licenseTo", "contractId", "description")
                                  .WithProductFeatures(productFeatures)
+                                 .WithAdditionalAttributes(additionalAttributes)
                                  .LicensedTo(customerName)
                                  .EffectiveFrom(effectiveData)
                                  .ExpiresAt(expirationDate)
@@ -125,6 +129,7 @@ namespace Portable.Licensing.Tests
             Assert.Equal(10, license.Constraint.Concurrent);
             Assert.NotNull(license.ProductFeatures);
             Assert.Equal(productFeatures, license.ProductFeatures.GetAll());
+            Assert.Equal(additionalAttributes, license.AdditionalAttributes.GetAll());
             Assert.NotNull(license.Memo);
             Assert.Equal(customerName, license.Memo.LicenseTo);
             Assert.Equal(ConvertToIso8601(effectiveData), license.Constraint.StartDate);
@@ -132,6 +137,8 @@ namespace Portable.Licensing.Tests
             Assert.Null(license.Constraint.Assembly);
             Assert.Null(license.Constraint.Version);
             Assert.NotNull(license.Constraint.MachineSID);
+            Assert.NotNull(license.Constraint.MACAddresses);
+            Assert.NotNull(license.Constraint.ProcessorId);
 
             // verify signature
             Assert.True(license.VerifySignature(publicKey));
@@ -157,7 +164,7 @@ namespace Portable.Licensing.Tests
                                  .As(LicenseType.Standard)
                                  .WithMaximumUtilization(100)
                                  .WithMaximumConcurrent(10)
-                                 .WithInstallationRestrictions("assembly", "version", "sid", "domain", "ips", "cpu")
+                                 .WithInstallationRestrictions("assembly", "version", "sid", "domain", "ips", "cpu", "mac", "pid")
                                  .WithMemo("issuer", "licenseTo", "contractId", "description")
                                  .WithProductFeatures(productFeatures)
                                  .LicensedTo(customerName)

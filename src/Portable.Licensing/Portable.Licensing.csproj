@@ -2,10 +2,10 @@
 
 	<PropertyGroup>
 		<Authors>Nauck IT KG</Authors>
-		<TargetFrameworks>net45;netstandard2.0;net5.0</TargetFrameworks>
+		<TargetFrameworks>net45;net5.0;netstandard2.0</TargetFrameworks>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<AssemblyName>GSS.Portable.Licensing</AssemblyName>
-		<AssemblyOriginatorKeyFile>Portable.Licensing.snk</AssemblyOriginatorKeyFile>
+		<AssemblyOriginatorKeyFile>GSS.Portable.Licensing.snk</AssemblyOriginatorKeyFile>
 		<SignAssembly>true</SignAssembly>
 		<PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
 		<PackageId>GSS.Portable.Licensing</PackageId>
@@ -41,6 +41,8 @@ Portable.Licensing is uses the RSA(cryptosystem) with XML Signature to help you 
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="DeviceId.Windows.Wmi" Version="6.1.0" />
+		<PackageReference Include="GSS.DeviceId.Extensions" Version="1.0.0" />
 		<PackageReference Include="Nerdbank.GitVersioning" Version="3.2.31" PrivateAssets="All" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
 		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net45" PrivateAssets="All" Version="1.0.0" />
